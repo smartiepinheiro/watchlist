@@ -7,8 +7,7 @@ export default class Watched extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            watched: false,
-            rating: 0
+            watched: false
         };
 
         this.handleWatched = this.handleWatched.bind(this);
@@ -17,13 +16,13 @@ export default class Watched extends Component {
     handleWatched() {
         let watched = JSON.parse(localStorage.getItem('watched'));
         if (this.state.watched) {
-            watched.splice(watched.indexOf(this.props.id), 1);
-            localStorage.setItem('watched', JSON.stringify(watched));
+            let watchedFiltered = watched.filter(watched => watched.id !== this.props.id );
+            localStorage.setItem('watched', JSON.stringify(watchedFiltered));
             this.setState({
                 watched: false
             });
         } else {
-            watched.push(this.props.id);
+            watched.push({id : this.props.id, rating : 5});
             localStorage.setItem('watched', JSON.stringify(watched));
             this.setState({
                 watched: true
@@ -33,13 +32,14 @@ export default class Watched extends Component {
 
     setData() {
         let watched = JSON.parse(localStorage.getItem('watched'));
-        if (watched.includes(this.props.id)) {
+        let watchedFiltered = watched.filter(watched => watched.id === this.props.id );
+        if (watchedFiltered.length === 0) {
             this.setState({
-                watched: true
+                watched: false
             });
         } else {
             this.setState({
-                watched: false
+                watched: true
             });
         }
     }

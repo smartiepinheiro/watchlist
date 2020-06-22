@@ -23,7 +23,7 @@ function WatchedList() {
     useEffect(() => {
         const watched = JSON.parse(localStorage.getItem('watched'));
         for (let i = 0; i < watched.length; i++) {
-            fetch(`${URL_API}?i=${watched[i]}${KEY}`)
+            fetch(`${URL_API}?i=${watched[i].id}${KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
                         array.push(parsedJson);
@@ -97,15 +97,31 @@ function WatchedList() {
         history.push("/search");
     }
 
+    function handleFavoritesButton() {
+        history.push("/favorites");
+    }
+
+    function handleWatchedButton() {
+        history.push("/watched");
+    }
+
     const searchTitle = "Your watched shows.";
     const emptyMessage = "No watched shows found.";
 
     return (
         <div>
-            <div style={{display: 'flex', margin: '50px'}}>
+            <div style={{display: 'flex', margin: '50px', height: '56px'}}>
                 <Button variant="contained" color="secondary"
                         onClick={handleBackButton}>
                     Back to search
+                </Button>
+                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '65%'}}
+                        onClick={handleWatchedButton}>
+                    Watched
+                </Button>
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '5%'}}
+                        onClick={handleFavoritesButton}>
+                    Favorites
                 </Button>
             </div>
             <MaterialTable
@@ -116,6 +132,8 @@ function WatchedList() {
                 options={{
                     search: false,
                     sorting: false,
+                    pageSize: localStorage.getItem('watched').length,
+                    paging: false
                 }}
                 localization={{
                     pagination: {

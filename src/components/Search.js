@@ -22,12 +22,12 @@ function Search() {
     const [searchTermSubmitted, setSearchTermSubmitted] = useState('');
 
     if (localStorage.getItem('favorites') === null) {
-        let favorites = [];
+        const favorites = [];
         localStorage.setItem("favorites", JSON.stringify(favorites));
     }
 
     if (localStorage.getItem('watched') === null) {
-        let watched = [];
+        const watched = [];
         localStorage.setItem("watched", JSON.stringify(watched));
     }
 
@@ -107,8 +107,7 @@ function Search() {
         },
     ]);
 
-    const title = "\"" + searchTermSubmitted + "\"";
-    const searchTitle = "Results found with " + title + " in the title.";
+    const searchTitle = "Results found:";
     const emptyMessage = "No results found.";
 
     return (
@@ -124,10 +123,10 @@ function Search() {
                                    }
                                }}/>
                 </form>
-                <Button variant="contained" color="secondary" style={{float: 'right'}} onClick={handleOnClick}>
+                <Button variant="contained" color="primary" style={{float: 'right'}} onClick={handleOnClick}>
                     Submit
                 </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '50%'}}
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '52.5%'}}
                         onClick={handleWatchedButton}>
                     Watched
                 </Button>
@@ -145,11 +144,10 @@ function Search() {
                     search: false,
                     sorting: false,
                     draggable: false,
+                    pageSize: 10,
+                    paging: false
                 }}
                 localization={{
-                    pagination: {
-                        labelDisplayedRows: '{from}-{to} of {count}'
-                    },
                     header: {
                         actions: 'Actions'
                     },

@@ -91,15 +91,31 @@ function Favorites() {
         history.push("/search");
     }
 
+    function handleFavoritesButton() {
+        history.push("/favorites");
+    }
+
+    function handleWatchedButton() {
+        history.push("/watched");
+    }
+
     const searchTitle = "Your favorites.";
     const emptyMessage = "No favorites found.";
 
     return (
         <div>
-            <div style={{display: 'flex', margin: '50px'}}>
+            <div style={{display: 'flex', margin: '50px', height: '56px'}}>
                 <Button variant="contained" color="secondary"
                         onClick={handleBackButton}>
                     Back to search
+                </Button>
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '65%'}}
+                        onClick={handleWatchedButton}>
+                    Watched
+                </Button>
+                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '5%'}}
+                        onClick={handleFavoritesButton}>
+                    Favorites
                 </Button>
             </div>
             <MaterialTable
@@ -110,6 +126,8 @@ function Favorites() {
                 options={{
                     search: false,
                     sorting: false,
+                    pageSize: localStorage.getItem('favorites').length,
+                    paging: false
                 }}
                 localization={{
                     pagination: {
