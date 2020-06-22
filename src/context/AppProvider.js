@@ -15,6 +15,12 @@ const initialState = {
         error: null,
         data: [],
         reload: false
+    },
+    watched: {
+        loading: true,
+        error: null,
+        data: [],
+        reload: false
     }
 };
 

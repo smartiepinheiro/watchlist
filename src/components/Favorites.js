@@ -34,7 +34,7 @@ function Favorites() {
     useEffect(() => {
         const timer = setTimeout(() => {
             dispatch(fetchFavoritesSuccess(JSON.parse(JSON.stringify(array))));
-        }, 1000);
+        }, 500);
         return () => clearTimeout(timer);
     }, []);
 
@@ -74,13 +74,13 @@ function Favorites() {
             )
         },
         {
-            title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
+            title: 'FAVORITE', render: rowData => (
+                <Favorite id={rowData.imdbID}/>
             )
         },
         {
-            title: 'FAVORITE', render: rowData => (
-                <Favorite id={rowData.imdbID}/>
+            title: 'IMDB', render: rowData => (
+                <ImdbRating title={rowData.Title}/>
             )
         }
     ]);
@@ -91,7 +91,7 @@ function Favorites() {
         history.push("/search");
     }
 
-    const searchTitle = "Your favorites";
+    const searchTitle = "Your favorites.";
     const emptyMessage = "No favorites found.";
 
     return (

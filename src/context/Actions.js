@@ -5,6 +5,7 @@ export const POSTER_NOT_FOUND = 'https://www.prokerala.com/movies/assets/img/no-
 
 export const FETCH_LIST_SUCCESS = 'FETCH_LIST_SUCCESS';
 export const FETCH_FAVORITES_SUCCESS = 'FETCH_FAVORITES_SUCCESS';
+export const FETCH_WATCHED_SUCCESS = 'FETCH_WATCHED_SUCCESS';
 
 export function fetchListSuccess(list) {
     return {
@@ -22,6 +23,16 @@ export function fetchFavoritesSuccess(favorites) {
         payload: {
             data:
                 [...favorites]
+        }
+    }
+}
+
+export function fetchWatchedSuccess(watched) {
+    return {
+        type: FETCH_WATCHED_SUCCESS,
+        payload: {
+            data:
+                [...watched]
         }
     }
 }

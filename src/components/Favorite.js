@@ -36,6 +36,10 @@ export default class Favorite extends Component {
             this.setState({
                 favorite: true
             });
+        } else {
+            this.setState({
+                favorite: false
+            });
         }
     }
 
@@ -44,16 +48,18 @@ export default class Favorite extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.id !== this.props.id){
+        if (prevProps.id !== this.props.id) {
             this.setData();
         }
     }
 
     render() {
         return (
-            <Button color="primary" onClick={() =>
-                {this.setState({favorite: !this.state.favorite}); this.handleFavorite()}}>
-                { this.state.favorite
+            <Button color="primary" onClick={() => {
+                this.setState({favorite: !this.state.favorite});
+                this.handleFavorite()
+            }}>
+                {this.state.favorite
                     ? <FavoriteIcon color={"secondary"}/>
                     : <FavoriteBorderIcon color={"secondary"}/>
                 }

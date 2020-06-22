@@ -4,6 +4,7 @@ import './css/App.css';
 import Favorites from "./components/Favorites";
 import Search from "./components/Search";
 import Home from "./components/Home";
+import WatchedList from "./components/WatchedList";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Router>
                 <Switch>
                     <Route path="/search" component={Search}/>
+                    <Route path="/watched" component={WatchedList}/>
                     <Route path="/favorites" component={Favorites}/>
                     <Route path="/" component={Home}/>
                 </Switch>

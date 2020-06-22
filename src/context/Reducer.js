@@ -1,5 +1,5 @@
 import {
-    FETCH_LIST_SUCCESS, FETCH_FAVORITES_SUCCESS
+    FETCH_LIST_SUCCESS, FETCH_FAVORITES_SUCCESS, FETCH_WATCHED_SUCCESS
 } from './Actions'
 
 function reducer(state, action) {
@@ -17,6 +17,14 @@ function reducer(state, action) {
             return {
                 ...state,
                 favorites: {
+                    loading: false,
+                    data: [...action.payload.data]
+                }
+            };
+        case FETCH_WATCHED_SUCCESS:
+            return {
+                ...state,
+                watched: {
                     loading: false,
                     data: [...action.payload.data]
                 }
