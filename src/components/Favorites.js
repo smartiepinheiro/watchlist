@@ -10,6 +10,7 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
 import {useHistory} from "react-router-dom";
+import Rating from "./Rating";
 
 function Favorites() {
 
@@ -21,7 +22,7 @@ function Favorites() {
 
     useEffect(() => {
         const favorites = JSON.parse(localStorage.getItem('favorites'));
-        for (let i = 0; i < favorites.length; i++) {
+        for (let i = favorites.length - 1; i >= 0; i--) {
             fetch(`${URL_API}?i=${favorites[i]}${KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
@@ -74,15 +75,20 @@ function Favorites() {
             )
         },
         {
+            title: 'IMDB', render: rowData => (
+                <ImdbRating title={rowData.Title}/>
+            )
+        },
+        {
             title: 'FAVORITE', render: rowData => (
                 <Favorite id={rowData.imdbID}/>
             )
         },
         {
-            title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
+            title: 'RATING', render: rowData => (
+                <Rating id={rowData.imdbID}/>
             )
-        }
+        },
     ]);
 
     const history = useHistory();

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {URL_API, IMDB, KEY} from "../context/Actions";
+import Button from "@material-ui/core/Button";
 
 export default class ImdbRating extends Component {
     constructor(props) {
@@ -30,16 +31,18 @@ export default class ImdbRating extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.title !== this.props.title){
+        if (prevProps.title !== this.props.title) {
             this.setData();
         }
     }
 
     render() {
         return (
-            <a href={`${IMDB}${this.state.id}`} target="_blank">
-                {this.state.rating}
-            </a>
+            <Button>
+                <a href={`${IMDB}${this.state.id}`} target="_blank">
+                    {this.state.rating}
+                </a>
+            </Button>
         )
     }
 }

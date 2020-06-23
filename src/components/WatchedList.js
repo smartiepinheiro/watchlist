@@ -11,6 +11,7 @@ import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
 import {useHistory} from "react-router-dom";
 import Watched from "./Watched";
+import Rating from "./Rating";
 
 function WatchedList() {
 
@@ -22,7 +23,7 @@ function WatchedList() {
 
     useEffect(() => {
         const watched = JSON.parse(localStorage.getItem('watched'));
-        for (let i = 0; i < watched.length; i++) {
+        for (let i = watched.length - 1; i >= 0; i--) {
             fetch(`${URL_API}?i=${watched[i].id}${KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
@@ -75,8 +76,8 @@ function WatchedList() {
             )
         },
         {
-            title: 'WATCHED', render: rowData => (
-                <Watched id={rowData.imdbID}/>
+            title: 'IMDB', render: rowData => (
+                <ImdbRating title={rowData.Title}/>
             )
         },
         {
@@ -85,8 +86,13 @@ function WatchedList() {
             )
         },
         {
-            title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
+            title: 'WATCHED', render: rowData => (
+                <Watched id={rowData.imdbID}/>
+            )
+        },
+        {
+            title: 'RATING', render: rowData => (
+                <Rating id={rowData.imdbID}/>
             )
         },
     ]);

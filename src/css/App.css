@@ -40,18 +40,8 @@
 /* from https://css-tricks.com/css-basics-styling-links-like-boss/ */
 a {
     color: #3f51b5;
-    padding: 1em 1.5em;
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
     border-radius: 5px;
-}
-
-a:hover {
-    background-color: rgba(63, 81, 181, 0.3);
-    transition-duration: 0.4s;
-}
-
-a:active {
-    background-color: black;
 }

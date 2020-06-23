@@ -12,6 +12,7 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Favorite from "./Favorite";
 import Watched from "./Watched";
+import RatingsPopUp from "./RatingsPopUp";
 
 function Search() {
     const {state, dispatch} = useContext(AppContext);
@@ -114,7 +115,7 @@ function Search() {
         <div>
             <div style={{display: 'flex', margin: '50px'}}>
                 <form noValidate autoComplete="off" style={{float: 'left', marginRight: '30px'}}>
-                    <TextField id="outlined-basic" label="Search term" variant="outlined"
+                    <TextField id="outlined-basic" label="Search movie/show" variant="outlined"
                                onChange={e => setSearch(e.target.value)}
                                onKeyPress={e => {
                                    if (e.key === 'Enter') {
