@@ -47,6 +47,14 @@ export default class Watched extends Component {
                 watched: true
             });
 
+            // when watched delete show from want to watch list
+            let watchlist = JSON.parse(localStorage.getItem('watchlist'));
+            if(watchlist.includes(this.props.id)) {
+                watchlist.splice(watchlist.indexOf(this.props.id), 1);
+                localStorage.setItem('watchlist', JSON.stringify(watchlist));
+            }
+
+            // ask for a rating
             this.handleRatingsOpen();
         }
     }

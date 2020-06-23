@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {fetchFavoritesStarted, fetchFavoritesSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import {fetchWatchlistStarted, fetchWatchlistSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import MaterialTable from "material-table";
 import DialogPopUp from "./DialogPopUp";
@@ -7,23 +7,24 @@ import ImdbRating from "./ImdbRating";
 import {tableIcons} from "../helpers/TableIcons";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
 import {useHistory} from "react-router-dom";
+import Watched from "./Watched";
 import Rating from "./Rating";
+import WantToWatch from "./WantToWatch";
 
-function Favorites() {
+function WantToWatchList() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {favorites} = state;
-    const {data} = favorites;
+    const {watchlist} = state;
+    const {data} = watchlist;
 
     const array = [];
 
     useEffect(() => {
-        const favorites = JSON.parse(localStorage.getItem('favorites'));
-        for (let i = favorites.length - 1; i >= 0; i--) {
-            fetch(`${URL_API}?i=${favorites[i]}${KEY}`)
+        const watchlist = JSON.parse(localStorage.getItem('watchlist'));
+        for (let i = watchlist.length - 1; i >= 0; i--) {
+            fetch(`${URL_API}?i=${watchlist[i]}${KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
                         array.push(parsedJson);
@@ -33,9 +34,9 @@ function Favorites() {
     }, []);
 
     useEffect(() => {
-        dispatch(fetchFavoritesStarted);
+        dispatch(fetchWatchlistStarted);
         const timer = setTimeout(() => {
-            dispatch(fetchFavoritesSuccess(JSON.parse(JSON.stringify(array))));
+            dispatch(fetchWatchlistSuccess(JSON.parse(JSON.stringify(array))));
         }, 500);
         return () => clearTimeout(timer);
     }, []);
@@ -81,15 +82,15 @@ function Favorites() {
             )
         },
         {
-            title: 'FAVORITE', render: rowData => (
-                <Favorite id={rowData.imdbID}/>
+            title: 'WATCHED', render: rowData => (
+                <Watched id={rowData.imdbID}/>
             )
         },
         {
-            title: 'RATING', render: rowData => (
-                <Rating id={rowData.imdbID}/>
+            title: 'WANT TO WATCH', render: rowData => (
+                <WantToWatch id={rowData.imdbID}/>
             )
-        },
+        }
     ]);
 
     const history = useHistory();
@@ -110,8 +111,8 @@ function Favorites() {
         history.push("/watchlist");
     }
 
-    const searchTitle = "Your favorites.";
-    const emptyMessage = "No favorites found.";
+    const searchTitle = "Shows you want to watch.";
+    const emptyMessage = "No watchlist shows found.";
 
     return (
         <div>
@@ -120,7 +121,7 @@ function Favorites() {
                         onClick={handleBackButton}>
                     Back to search
                 </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '42.5%'}}
+                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '42.5%'}}
                         onClick={handleWatchlistButton}>
                     Want to watch
                 </Button>
@@ -128,7 +129,7 @@ function Favorites() {
                         onClick={handleWatchedButton}>
                     Watched
                 </Button>
-                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '5%'}}
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '5%'}}
                         onClick={handleFavoritesButton}>
                     Favorites
                 </Button>
@@ -141,7 +142,7 @@ function Favorites() {
                 options={{
                     search: false,
                     sorting: false,
-                    pageSize: localStorage.getItem('favorites').length,
+                    pageSize: localStorage.getItem('watchlist').length,
                     paging: false
                 }}
                 localization={{
@@ -165,4 +166,4 @@ function Favorites() {
     )
 }
 
-export default Favorites;
+export default WantToWatchList;

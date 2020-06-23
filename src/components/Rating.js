@@ -20,12 +20,13 @@ export default class Rating extends Component {
 
     setData() {
         let watched = JSON.parse(localStorage.getItem('watched'));
-        console.log(this.props.id);
         let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
 
-        this.setState({
-            rating: watchedFiltered[0].rating
-        });
+        if(watchedFiltered.length > 0) {
+            this.setState({
+                rating: watchedFiltered[0].rating
+            });
+        }
     }
 
     componentDidMount() {

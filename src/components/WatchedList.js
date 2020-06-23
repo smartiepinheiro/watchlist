@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {fetchWatchedSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import {fetchWatchedStarted, fetchWatchedSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import MaterialTable from "material-table";
 import DialogPopUp from "./DialogPopUp";
@@ -22,6 +22,7 @@ function WatchedList() {
     const array = [];
 
     useEffect(() => {
+        dispatch(fetchWatchedStarted);
         const watched = JSON.parse(localStorage.getItem('watched'));
         for (let i = watched.length - 1; i >= 0; i--) {
             fetch(`${URL_API}?i=${watched[i].id}${KEY}`)
@@ -111,6 +112,10 @@ function WatchedList() {
         history.push("/watched");
     }
 
+    function handleWatchlistButton() {
+        history.push("/watchlist");
+    }
+
     const searchTitle = "Your watched shows.";
     const emptyMessage = "No watched shows found.";
 
@@ -121,7 +126,11 @@ function WatchedList() {
                         onClick={handleBackButton}>
                     Back to search
                 </Button>
-                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '65%'}}
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '42.5%'}}
+                        onClick={handleWatchlistButton}>
+                    Want to watch
+                </Button>
+                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '5%'}}
                         onClick={handleWatchedButton}>
                     Watched
                 </Button>

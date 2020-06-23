@@ -5,19 +5,25 @@ import reducer from './Reducer';
 
 const initialState = {
     list: {
-        loading: true,
+        loading: false,
         error: null,
         data: [],
         reload: false
     },
     favorites: {
-        loading: true,
+        loading: false,
         error: null,
         data: [],
         reload: false
     },
     watched: {
-        loading: true,
+        loading: false,
+        error: null,
+        data: [],
+        reload: false
+    },
+    watchlist: {
+        loading: false,
         error: null,
         data: [],
         reload: false

@@ -60,9 +60,9 @@ export default class RatingsPopUp extends Component {
         localStorage.setItem('watched', JSON.stringify(watchedAfter));
 
         // TODO change to just Ratings component update
-        // if(window.location.pathname === "/watched") {
-        //     window.location.reload();
-        // }
+        if(window.location.pathname !== "/search") {
+            window.location.reload();
+        }
     }
 
     render() {

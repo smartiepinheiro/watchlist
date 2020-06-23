@@ -1,6 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
-import {fetchListSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import {
+    fetchListSuccess,
+    fetchListStarted,
+    KEY,
+    POSTER_NOT_FOUND,
+    URL_API
+} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField/TextField";
 import AppContext from "../context/AppContext";
@@ -10,17 +16,31 @@ import DialogPopUp from "./DialogPopUp";
 import {tableIcons} from "../helpers/TableIcons";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import Favorite from "./Favorite";
 import Watched from "./Watched";
-import RatingsPopUp from "./RatingsPopUp";
+import WantToWatch from "./WantToWatch";
 
 function Search() {
     const {state, dispatch} = useContext(AppContext);
     const {list} = state;
     const {data} = list;
 
+    const [page, setPage] = useState(1);
+
+    function nextPage() {
+        setPage(page + 1);
+    }
+
+    function previousPage() {
+        if (page > 2) {
+            setPage(page - 1);
+        }
+    }
+
+    useEffect(() => {
+        handleOnClick();
+    }, [page])
+
     const [search, setSearch] = useState('');
-    const [searchTermSubmitted, setSearchTermSubmitted] = useState('');
 
     if (localStorage.getItem('favorites') === null) {
         const favorites = [];
@@ -32,9 +52,14 @@ function Search() {
         localStorage.setItem("watched", JSON.stringify(watched));
     }
 
+    if (localStorage.getItem('watchlist') === null) {
+        const watched = [];
+        localStorage.setItem("watchlist", JSON.stringify(watched));
+    }
+
     function handleOnClick() {
-        setSearchTermSubmitted(search);
-        fetch(`${URL_API}?s=${search}${KEY}`)
+        dispatch(fetchListStarted());
+        fetch(`${URL_API}?s=${search}&page=${page}${KEY}`)
             .then(function (response) {
                 response.json().then(function (parsedJson) {
                     if (parsedJson.Response === 'True') {
@@ -43,7 +68,8 @@ function Search() {
                     }
                 })
             })
-        ;
+
+        window.scrollTo(0, 0);
     }
 
     const history = useHistory();
@@ -54,6 +80,10 @@ function Search() {
 
     function handleWatchedButton() {
         history.push("/watched");
+    }
+
+    function handleWatchlistButton() {
+        history.push("/watchlist");
     }
 
     //Dialog box settings
@@ -97,8 +127,8 @@ function Search() {
             )
         },
         {
-            title: 'FAVORITE', render: rowData => (
-                <Favorite id={rowData.imdbID}/>
+            title: 'WANT TO WATCH', render: rowData => (
+                <WantToWatch id={rowData.imdbID}/>
             )
         },
         {
@@ -120,14 +150,19 @@ function Search() {
                                onKeyPress={e => {
                                    if (e.key === 'Enter') {
                                        e.preventDefault();
-                                       handleOnClick()
+                                       setPage(1);
+                                       handleOnClick();
                                    }
                                }}/>
                 </form>
                 <Button variant="contained" color="primary" style={{float: 'right'}} onClick={handleOnClick}>
                     Submit
                 </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '52.5%'}}
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '30%'}}
+                        onClick={handleWatchlistButton}>
+                    Want to watch
+                </Button>
+                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '5%'}}
                         onClick={handleWatchedButton}>
                     Watched
                 </Button>
@@ -157,6 +192,8 @@ function Search() {
                     },
                 }}
             />
+            <Button onClick={previousPage}>previous page</Button>
+            <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
             <Dialog open={open} onClose={handleDialogClose}>
                 <DialogContent>
                     <DialogPopUp imdbID={imdbID}/>
