@@ -54,16 +54,23 @@ export default class WantToWatch extends Component {
     }
 
     render() {
-        return (
-            <Button color="primary" onClick={() => {
-                this.setState({wantToWatch: !this.state.wantToWatch});
-                this.handleWantToWatch()
-            }}>
-                {this.state.wantToWatch
-                    ? <BookmarkIcon color={"secondary"}/>
-                    : <BookmarkBorderIcon color={"secondary"}/>
-                }
-            </Button>
-        )
+
+        let watched = JSON.parse(localStorage.getItem('watched'));
+        let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
+        if (watchedFiltered.length === 0) {
+            return (
+                <Button color="primary" onClick={() => {
+                    this.setState({wantToWatch: !this.state.wantToWatch});
+                    this.handleWantToWatch()
+                }}>
+                    {this.state.wantToWatch
+                        ? <BookmarkIcon color={"secondary"}/>
+                        : <BookmarkBorderIcon color={"secondary"}/>
+                    }
+                </Button>
+            )
+        }
+
+        else return "Already watched";
     }
 }

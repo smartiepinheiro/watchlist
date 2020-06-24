@@ -83,12 +83,7 @@ function Favorites() {
             title: 'FAVORITE', render: rowData => (
                 <Favorite id={rowData.imdbID}/>
             )
-        },
-        {
-            title: 'RATING', render: rowData => (
-                <Rating id={rowData.imdbID}/>
-            )
-        },
+        }
     ]);
 
     const searchTitle = "Your favorites:";
