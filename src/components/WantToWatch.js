@@ -22,11 +22,15 @@ export default class WantToWatch extends Component {
                 wantToWatch: false
             });
         } else {
-            watchlist.push(this.props.id);
-            localStorage.setItem('watchlist', JSON.stringify(watchlist));
-            this.setState({
-                wantToWatch: true
-            });
+            let watched = JSON.parse(localStorage.getItem('watched'));
+            let watchedFiltered = watched.filter(watched => watched.id !== this.props.id);
+            if(watchedFiltered.length === 0) {
+                watchlist.push(this.props.id);
+                localStorage.setItem('watchlist', JSON.stringify(watchlist));
+                this.setState({
+                    wantToWatch: true
+                });
+            }
         }
     }
 

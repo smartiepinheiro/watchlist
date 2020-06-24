@@ -3,21 +3,22 @@ import {BrowserRouter as Router, Switch, Route, NavLink} from "react-router-dom"
 import './css/App.css';
 import Favorites from "./components/Favorites";
 import SearchResult from "./components/SearchResult";
-import Home from "./components/Home";
 import WatchedList from "./components/WatchedList";
 import WantToWatchList from "./components/WantToWatchList";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button";
 import {fetchListStarted, fetchListSuccess, KEY, URL_API} from "./context/Actions";
 import AppContext from "./context/AppContext";
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 function App() {
 
     const {dispatch} = useContext(AppContext);
-
     const [page, setPage] = useState(1);
 
     function nextPage() {
@@ -67,11 +68,95 @@ function App() {
     }
 
     let pageButtons;
-    if (window.location.pathname === '/search') {
+    let navbarButtons;
+    if (window.location.pathname === '/watchlist') {
+        navbarButtons =
+            <div className="navbarright">
+                <NavLink to={"/watchlist"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Want to watch &nbsp; <BookmarkIcon color={"white"}/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/watched"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Watched &nbsp; <CheckBoxOutlineBlankIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/favorites"}>
+                    <Button className="button" variant="contained" color="secondary">
+                        Favorites &nbsp; <FavoriteBorderIcon/>
+                    </Button>
+                </NavLink>
+            </div>
+    } else if (window.location.pathname === '/watched') {
+        navbarButtons =
+            <div className="navbarright">
+                <NavLink to={"/watchlist"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Want to watch &nbsp; <BookmarkBorderIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/watched"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Watched &nbsp; <CheckBoxIcon color={"white"}/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/favorites"}>
+                    <Button className="button" variant="contained" color="secondary">
+                        Favorites &nbsp; <FavoriteBorderIcon/>
+                    </Button>
+                </NavLink>
+            </div>
+    } else if (window.location.pathname === '/favorites'){
+        navbarButtons =
+            <div className="navbarright">
+                <NavLink to={"/watchlist"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Want to watch &nbsp; <BookmarkBorderIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/watched"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Watched &nbsp; <CheckBoxOutlineBlankIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/favorites"}>
+                    <Button className="button" variant="contained" color="secondary">
+                        Favorites &nbsp; <FavoriteIcon color={"white"}/>
+                    </Button>
+                </NavLink>
+            </div>
+    } else {
         pageButtons =
             <div>
                 <Button onClick={previousPage}>previous page</Button>
                 <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
+            </div>
+        navbarButtons =
+            <div className="navbarright">
+                <NavLink to={"/watchlist"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Want to watch &nbsp; <BookmarkBorderIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/watched"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Watched &nbsp; <CheckBoxOutlineBlankIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/favorites"}>
+                    <Button className="button" variant="contained" color="secondary">
+                        Favorites &nbsp; <FavoriteBorderIcon/>
+                    </Button>
+                </NavLink>
             </div>
     }
 
@@ -99,25 +184,7 @@ function App() {
                                 style={{marginLeft: '25px'}} onClick={handleOnClick}>
                             Submit
                         </Button>
-                        <div className="navbarright">
-                            <NavLink to={"/watchlist"}>
-                                <Button className="button" variant="contained" color="secondary"
-                                        style={{marginRight: '25px'}}>
-                                    Want to watch &nbsp; <BookmarkIcon/>
-                                </Button>
-                            </NavLink>
-                            <NavLink to={"/watched"}>
-                                <Button className="button" variant="contained" color="secondary"
-                                        style={{marginRight: '25px'}}>
-                                    Watched &nbsp; <CheckBoxIcon/>
-                                </Button>
-                            </NavLink>
-                            <NavLink to={"/favorites"}>
-                                <Button className="button" variant="contained" color="secondary">
-                                    Favorites &nbsp; <FavoriteIcon/>
-                                </Button>
-                            </NavLink>
-                        </div>
+                        {navbarButtons}
                     </nav>
 
                 </div>
@@ -126,7 +193,7 @@ function App() {
                     <Route path="/watchlist" component={WantToWatchList}/>
                     <Route path="/watched" component={WatchedList}/>
                     <Route path="/favorites" component={Favorites}/>
-                    <Route path="/" component={Home}/>
+                    <Route path="/" component={SearchResult}/>
                 </Switch>
             </Router>
             {pageButtons}
