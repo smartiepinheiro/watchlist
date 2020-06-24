@@ -1,44 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {fetchWatchedStarted, fetchWatchedSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import React, {useContext, useState} from 'react';
+import {POSTER_NOT_FOUND} from '../context/Actions';
 import Button from "@material-ui/core/Button";
+import AppContext from "../context/AppContext";
 import MaterialTable from "material-table";
-import DialogPopUp from "./DialogPopUp";
 import ImdbRating from "./ImdbRating";
+import DialogPopUp from "./DialogPopUp";
 import {tableIcons} from "../helpers/TableIcons";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import Favorite from "./Favorite";
-import AppContext from "../context/AppContext";
 import Watched from "./Watched";
-import Rating from "./Rating";
+import WantToWatch from "./WantToWatch";
 
-function WatchedList() {
-
-    const {state, dispatch} = useContext(AppContext);
-    const {watched} = state;
-    const {data} = watched;
-
-    const array = [];
-
-    useEffect(() => {
-        dispatch(fetchWatchedStarted);
-        const watched = JSON.parse(localStorage.getItem('watched'));
-        for (let i = watched.length - 1; i >= 0; i--) {
-            fetch(`${URL_API}?i=${watched[i].id}${KEY}`)
-                .then(function (response) {
-                    response.json().then(function (parsedJson) {
-                        array.push(parsedJson);
-                    },)
-                })
-        }
-    }, []);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            dispatch(fetchWatchedSuccess(JSON.parse(JSON.stringify(array))));
-        }, 500);
-        return () => clearTimeout(timer);
-    }, []);
+function SearchResult() {
+    const {state} = useContext(AppContext);
+    const {list} = state;
+    const {data} = list;
 
     //Dialog box settings
     const [open, setOpen] = React.useState(false);
@@ -76,29 +52,24 @@ function WatchedList() {
             )
         },
         {
-            title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
-            )
-        },
-        {
-            title: 'FAVORITE', render: rowData => (
-                <Favorite id={rowData.imdbID}/>
-            )
-        },
-        {
             title: 'WATCHED', render: rowData => (
                 <Watched id={rowData.imdbID}/>
             )
         },
         {
-            title: 'RATING', render: rowData => (
-                <Rating id={rowData.imdbID}/>
+            title: 'WANT TO WATCH', render: rowData => (
+                <WantToWatch id={rowData.imdbID}/>
+            )
+        },
+        {
+            title: 'IMDB', render: rowData => (
+                <ImdbRating title={rowData.Title}/>
             )
         },
     ]);
 
-    const searchTitle = "Your watched shows:";
-    const emptyMessage = "No watched shows found.";
+    const searchTitle = "Results found:";
+    const emptyMessage = "No results found.";
 
     return (
         <div>
@@ -111,13 +82,10 @@ function WatchedList() {
                     search: false,
                     sorting: false,
                     draggable: false,
-                    pageSize: localStorage.getItem('watched').length,
+                    pageSize: 10,
                     paging: false
                 }}
                 localization={{
-                    pagination: {
-                        labelDisplayedRows: '{from}-{to} of {count}'
-                    },
                     header: {
                         actions: 'Actions'
                     },
@@ -135,4 +103,4 @@ function WatchedList() {
     )
 }
 
-export default WatchedList;
+export default SearchResult;

@@ -45,3 +45,26 @@ a {
     text-transform: uppercase;
     border-radius: 5px;
 }
+
+.button {
+    height: 55px;
+}
+
+/* Style the navigation bar */
+.navbar {
+    height: 60px;
+    overflow: hidden;
+    background-color: rgba(101, 115, 195, 0.6);
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    padding: 10px;
+}
+
+.navbarleft {
+    float: left;
+}
+
+.navbarright {
+    float: right;
+}

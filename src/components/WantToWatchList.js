@@ -8,9 +8,7 @@ import {tableIcons} from "../helpers/TableIcons";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import AppContext from "../context/AppContext";
-import {useHistory} from "react-router-dom";
 import Watched from "./Watched";
-import Rating from "./Rating";
 import WantToWatch from "./WantToWatch";
 
 function WantToWatchList() {
@@ -93,47 +91,11 @@ function WantToWatchList() {
         }
     ]);
 
-    const history = useHistory();
-
-    function handleBackButton() {
-        history.push("/search");
-    }
-
-    function handleFavoritesButton() {
-        history.push("/favorites");
-    }
-
-    function handleWatchedButton() {
-        history.push("/watched");
-    }
-
-    function handleWatchlistButton() {
-        history.push("/watchlist");
-    }
-
-    const searchTitle = "Shows you want to watch.";
+    const searchTitle = "Shows you want to watch:";
     const emptyMessage = "No watchlist shows found.";
 
     return (
         <div>
-            <div style={{display: 'flex', margin: '50px', height: '56px'}}>
-                <Button variant="contained" color="secondary"
-                        onClick={handleBackButton}>
-                    Back to search
-                </Button>
-                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '42.5%'}}
-                        onClick={handleWatchlistButton}>
-                    Want to watch
-                </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '5%'}}
-                        onClick={handleWatchedButton}>
-                    Watched
-                </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '5%'}}
-                        onClick={handleFavoritesButton}>
-                    Favorites
-                </Button>
-            </div>
             <MaterialTable
                 title={searchTitle}
                 icons={tableIcons}
@@ -142,6 +104,7 @@ function WantToWatchList() {
                 options={{
                     search: false,
                     sorting: false,
+                    draggable: false,
                     pageSize: localStorage.getItem('watchlist').length,
                     paging: false
                 }}

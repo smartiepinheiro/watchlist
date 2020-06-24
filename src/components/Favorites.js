@@ -9,7 +9,6 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
-import {useHistory} from "react-router-dom";
 import Rating from "./Rating";
 
 function Favorites() {
@@ -92,47 +91,11 @@ function Favorites() {
         },
     ]);
 
-    const history = useHistory();
-
-    function handleBackButton() {
-        history.push("/search");
-    }
-
-    function handleFavoritesButton() {
-        history.push("/favorites");
-    }
-
-    function handleWatchedButton() {
-        history.push("/watched");
-    }
-
-    function handleWatchlistButton() {
-        history.push("/watchlist");
-    }
-
-    const searchTitle = "Your favorites.";
+    const searchTitle = "Your favorites:";
     const emptyMessage = "No favorites found.";
 
     return (
         <div>
-            <div style={{display: 'flex', margin: '50px', height: '56px'}}>
-                <Button variant="contained" color="secondary"
-                        onClick={handleBackButton}>
-                    Back to search
-                </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '42.5%'}}
-                        onClick={handleWatchlistButton}>
-                    Want to watch
-                </Button>
-                <Button variant="contained" color="secondary" style={{float: 'right', marginLeft: '5%'}}
-                        onClick={handleWatchedButton}>
-                    Watched
-                </Button>
-                <Button variant="contained" color="primary" style={{float: 'right', marginLeft: '5%'}}
-                        onClick={handleFavoritesButton}>
-                    Favorites
-                </Button>
-            </div>
             <MaterialTable
                 title={searchTitle}
                 icons={tableIcons}
@@ -141,6 +104,7 @@ function Favorites() {
                 options={{
                     search: false,
                     sorting: false,
+                    draggable: false,
                     pageSize: localStorage.getItem('favorites').length,
                     paging: false
                 }}
