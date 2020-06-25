@@ -73,7 +73,6 @@ export default class RatingsPopUp extends Component {
     }
 
     updateStars() {
-        console.log(this.star);
         switch (this.star) {
             case 1 :
                 this.setState({

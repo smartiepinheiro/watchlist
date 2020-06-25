@@ -10,12 +10,18 @@ import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import AppContext from "../context/AppContext";
 import Watched from "./Watched";
 import WantToWatch from "./WantToWatch";
+import Loading from "./Loading";
+import {NavLink} from "react-router-dom";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 function WantToWatchList() {
 
     const {state, dispatch} = useContext(AppContext);
     const {watchlist} = state;
-    const {data} = watchlist;
+    const {data, loading} = watchlist;
 
     const array = [];
 
@@ -33,7 +39,7 @@ function WantToWatchList() {
 
         const timer = setTimeout(() => {
             dispatch(fetchWatchlistSuccess(JSON.parse(JSON.stringify(array))));
-        }, 1000);
+        }, 1500);
         return () => clearTimeout(timer);
     }, []);
 
@@ -93,39 +99,84 @@ function WantToWatchList() {
     const searchTitle = "Shows you want to watch:";
     const emptyMessage = "No watchlist shows found.";
 
-    return (
+    const navBar =
         <div>
-            <MaterialTable
-                title={searchTitle}
-                icons={tableIcons}
-                columns={columns}
-                data={data}
-                options={{
-                    search: false,
-                    sorting: false,
-                    draggable: false,
-                    pageSize: localStorage.getItem('watchlist').length,
-                    paging: false
-                }}
-                localization={{
-                    pagination: {
-                        labelDisplayedRows: '{from}-{to} of {count}'
-                    },
-                    header: {
-                        actions: 'Actions'
-                    },
-                    body: {
-                        emptyDataSourceMessage: emptyMessage,
-                    },
-                }}
-            />
-            <Dialog open={open} onClose={handleDialogClose}>
-                <DialogContent>
-                    <DialogPopUp imdbID={imdbID}/>
-                </DialogContent>
-            </Dialog>
+            <nav className="navbar">
+                <div className="navbarleft">
+                    <NavLink to={"/search"}>
+                        <Button className="button" variant="contained" color="primary"
+                                style={{marginRight: '25px'}}>
+                            <ArrowBackIosIcon/> &nbsp; Back to search
+                        </Button>
+                    </NavLink>
+                </div>
+                <div className="navbarright">
+                    <NavLink to={"/watchlist"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Want to watch &nbsp; <BookmarkIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/favorites"}>
+                        <Button className="button" variant="contained" color="secondary">
+                            Favorites &nbsp; <FavoriteBorderIcon/>
+                        </Button>
+                    </NavLink>
+                </div>
+            </nav>
         </div>
-    )
+
+    if (loading || (JSON.parse(localStorage.getItem('watchlist')).length !== 0 && data.length === 0)) {
+        return (
+            <div>
+                {navBar}
+                <Loading/>
+            </div>
+        )
+    }
+
+    else {
+        return (
+            <div>
+                {navBar}
+                <MaterialTable
+                    title={searchTitle}
+                    icons={tableIcons}
+                    columns={columns}
+                    data={data}
+                    options={{
+                        search: false,
+                        sorting: false,
+                        draggable: false,
+                        pageSize: localStorage.getItem('watchlist').length,
+                        paging: false
+                    }}
+                    localization={{
+                        pagination: {
+                            labelDisplayedRows: '{from}-{to} of {count}'
+                        },
+                        header: {
+                            actions: 'Actions'
+                        },
+                        body: {
+                            emptyDataSourceMessage: emptyMessage,
+                        },
+                    }}
+                />
+                <Dialog open={open} onClose={handleDialogClose}>
+                    <DialogContent>
+                        <DialogPopUp imdbID={imdbID}/>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        )
+    }
 }
 
 export default WantToWatchList;

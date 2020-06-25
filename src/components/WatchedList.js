@@ -11,12 +11,18 @@ import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
 import Watched from "./Watched";
 import Rating from "./Rating";
+import Loading from "./Loading";
+import {NavLink} from "react-router-dom";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 function WatchedList() {
 
     const {state, dispatch} = useContext(AppContext);
     const {watched} = state;
-    const {data} = watched;
+    const {data, loading} = watched;
 
     const array = [];
 
@@ -98,39 +104,84 @@ function WatchedList() {
     const searchTitle = "Your watched shows:";
     const emptyMessage = "No watched shows found.";
 
-    return (
-        <div>
-            <MaterialTable
-                title={searchTitle}
-                icons={tableIcons}
-                columns={columns}
-                data={data}
-                options={{
-                    search: false,
-                    sorting: false,
-                    draggable: false,
-                    pageSize: localStorage.getItem('watched').length,
-                    paging: false
-                }}
-                localization={{
-                    pagination: {
-                        labelDisplayedRows: '{from}-{to} of {count}'
-                    },
-                    header: {
-                        actions: 'Actions'
-                    },
-                    body: {
-                        emptyDataSourceMessage: emptyMessage,
-                    },
-                }}
-            />
-            <Dialog open={open} onClose={handleDialogClose}>
-                <DialogContent>
-                    <DialogPopUp imdbID={imdbID}/>
-                </DialogContent>
-            </Dialog>
-        </div>
-    )
+    const navBar =
+            <div>
+                <nav className="navbar">
+                    <div className="navbarleft">
+                        <NavLink to={"/search"}>
+                            <Button className="button" variant="contained" color="primary"
+                                    style={{marginRight: '25px'}}>
+                                <ArrowBackIosIcon/> &nbsp; Back to search
+                            </Button>
+                        </NavLink>
+                    </div>
+                    <div className="navbarright">
+                        <NavLink to={"/watchlist"}>
+                            <Button className="button" variant="contained" color="secondary"
+                                    style={{marginRight: '25px'}}>
+                                Want to watch &nbsp; <BookmarkBorderIcon/>
+                            </Button>
+                        </NavLink>
+                        <NavLink to={"/watched"}>
+                            <Button className="button" variant="contained" color="secondary"
+                                    style={{marginRight: '25px'}}>
+                                Watched &nbsp; <CheckBoxIcon color={"white"}/>
+                            </Button>
+                        </NavLink>
+                        <NavLink to={"/favorites"}>
+                            <Button className="button" variant="contained" color="secondary">
+                                Favorites &nbsp; <FavoriteBorderIcon/>
+                            </Button>
+                        </NavLink>
+                    </div>
+                </nav>
+            </div>
+
+    if (loading || (JSON.parse(localStorage.getItem('watched')).length !== 0 && data.length === 0)) {
+        return (
+            <div>
+                {navBar}
+                <Loading/>
+            </div>
+        )
+    }
+
+    else {
+        return (
+            <div>
+                {navBar}
+                <MaterialTable
+                    title={searchTitle}
+                    icons={tableIcons}
+                    columns={columns}
+                    data={data}
+                    options={{
+                        search: false,
+                        sorting: false,
+                        draggable: false,
+                        pageSize: localStorage.getItem('watched').length,
+                        paging: false
+                    }}
+                    localization={{
+                        pagination: {
+                            labelDisplayedRows: '{from}-{to} of {count}'
+                        },
+                        header: {
+                            actions: 'Actions'
+                        },
+                        body: {
+                            emptyDataSourceMessage: emptyMessage,
+                        },
+                    }}
+                />
+                <Dialog open={open} onClose={handleDialogClose}>
+                    <DialogContent>
+                        <DialogPopUp imdbID={imdbID}/>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        )
+    }
 }
 
 export default WatchedList;

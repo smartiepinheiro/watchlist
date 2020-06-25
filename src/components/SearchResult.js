@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {POSTER_NOT_FOUND} from '../context/Actions';
+import React, {useContext, useEffect, useState} from 'react';
+import {fetchListStarted, fetchListSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import AppContext from "../context/AppContext";
 import MaterialTable from "material-table";
@@ -10,11 +10,48 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Watched from "./Watched";
 import WantToWatch from "./WantToWatch";
+import {NavLink} from "react-router-dom";
+import TextField from "@material-ui/core/TextField/TextField";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 function SearchResult() {
-    const {state} = useContext(AppContext);
+    const {state, dispatch} = useContext(AppContext);
     const {list} = state;
     const {data} = list;
+
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+
+    function handleOnClick() {
+        dispatch(fetchListStarted());
+        fetch(`${URL_API}?s=${search}&page=${page}${KEY}`)
+            .then(function (response) {
+                response.json().then(function (parsedJson) {
+                    if (parsedJson.Response === 'True') {
+                        dispatch(fetchListSuccess(JSON.parse(JSON.stringify(parsedJson)
+                            .split('"Search":').pop().split(',"totalResults"')[0])));
+                    }
+                })
+            })
+
+        window.scrollTo(0, 0);
+    }
+
+    function nextPage() {
+        setPage(page + 1);
+    }
+
+    function previousPage() {
+        if (page > 2) {
+            setPage(page - 1);
+        }
+    }
+
+    useEffect(() => {
+        handleOnClick();
+    }, [page])
 
     //Dialog box settings
     const [open, setOpen] = React.useState(false);
@@ -73,6 +110,44 @@ function SearchResult() {
 
     return (
         <div>
+            <nav className="navbar">
+                    <div className="navbarleft">
+                        <form noValidate autoComplete="off">
+                            <TextField id="outlined-basic" label="Search movie/show" variant="outlined"
+                                       onChange={e => setSearch(e.target.value)}
+                                       onKeyPress={e => {
+                                           if (e.key === 'Enter') {
+                                               e.preventDefault();
+                                               setPage(1);
+                                               handleOnClick();
+                                           }
+                                       }}/>
+                        </form>
+                    </div>
+                <Button className="button" variant="contained" color="primary"
+                        style={{marginLeft: '25px'}} onClick={handleOnClick}>
+                    Submit
+                </Button>
+                <div className="navbarright">
+                    <NavLink to={"/watchlist"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Want to watch &nbsp; <BookmarkBorderIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watched &nbsp; <CheckBoxOutlineBlankIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/favorites"}>
+                        <Button className="button" variant="contained" color="secondary">
+                            Favorites &nbsp; <FavoriteBorderIcon/>
+                        </Button>
+                    </NavLink>
+                </div>
+            </nav>
             <MaterialTable
                 title={searchTitle}
                 icons={tableIcons}
@@ -99,6 +174,10 @@ function SearchResult() {
                     <DialogPopUp imdbID={imdbID}/>
                 </DialogContent>
             </Dialog>
+            <div>
+                <Button onClick={previousPage}>previous page</Button>
+                <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
+            </div>
         </div>
     )
 }

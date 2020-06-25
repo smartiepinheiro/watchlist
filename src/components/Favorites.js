@@ -9,13 +9,18 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
-import Rating from "./Rating";
+import Loading from "./Loading";
+import {NavLink} from "react-router-dom";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 function Favorites() {
 
     const {state, dispatch} = useContext(AppContext);
     const {favorites} = state;
-    const {data} = favorites;
+    const {data, loading} = favorites;
 
     const array = [];
 
@@ -33,7 +38,7 @@ function Favorites() {
 
         const timer = setTimeout(() => {
             dispatch(fetchFavoritesSuccess(JSON.parse(JSON.stringify(array))));
-        }, 1000);
+        }, 1500);
         return () => clearTimeout(timer);
     }, []);
 
@@ -87,39 +92,84 @@ function Favorites() {
     const searchTitle = "Your favorites:";
     const emptyMessage = "No favorites found.";
 
-    return (
+    const navBar =
         <div>
-            <MaterialTable
-                title={searchTitle}
-                icons={tableIcons}
-                columns={columns}
-                data={data}
-                options={{
-                    search: false,
-                    sorting: false,
-                    draggable: false,
-                    pageSize: localStorage.getItem('favorites').length,
-                    paging: false
-                }}
-                localization={{
-                    pagination: {
-                        labelDisplayedRows: '{from}-{to} of {count}'
-                    },
-                    header: {
-                        actions: 'Actions'
-                    },
-                    body: {
-                        emptyDataSourceMessage: emptyMessage,
-                    },
-                }}
-            />
-            <Dialog open={open} onClose={handleDialogClose}>
-                <DialogContent>
-                    <DialogPopUp imdbID={imdbID}/>
-                </DialogContent>
-            </Dialog>
+            <nav className="navbar">
+                <div className="navbarleft">
+                    <NavLink to={"/search"}>
+                        <Button className="button" variant="contained" color="primary"
+                                style={{marginRight: '25px'}}>
+                            <ArrowBackIosIcon/> &nbsp; Back to search
+                        </Button>
+                    </NavLink>
+                </div>
+                <div className="navbarright">
+                    <NavLink to={"/watchlist"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Want to watch &nbsp; <BookmarkBorderIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/favorites"}>
+                        <Button className="button" variant="contained" color="secondary">
+                            Favorites &nbsp; <FavoriteIcon/>
+                        </Button>
+                    </NavLink>
+                </div>
+            </nav>
         </div>
-    )
+
+    if (loading || (JSON.parse(localStorage.getItem('favorites')).length !== 0 && data.length === 0)) {
+        return (
+            <div>
+                {navBar}
+                <Loading/>
+            </div>
+        )
+    }
+
+    else {
+        return (
+            <div>
+                {navBar}
+                <MaterialTable
+                    title={searchTitle}
+                    icons={tableIcons}
+                    columns={columns}
+                    data={data}
+                    options={{
+                        search: false,
+                        sorting: false,
+                        draggable: false,
+                        pageSize: localStorage.getItem('favorites').length,
+                        paging: false
+                    }}
+                    localization={{
+                        pagination: {
+                            labelDisplayedRows: '{from}-{to} of {count}'
+                        },
+                        header: {
+                            actions: 'Actions'
+                        },
+                        body: {
+                            emptyDataSourceMessage: emptyMessage,
+                        },
+                    }}
+                />
+                <Dialog open={open} onClose={handleDialogClose}>
+                    <DialogContent>
+                        <DialogPopUp imdbID={imdbID}/>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        )
+    }
 }
 
 export default Favorites;
