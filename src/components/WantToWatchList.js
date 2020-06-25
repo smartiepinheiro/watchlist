@@ -20,6 +20,7 @@ function WantToWatchList() {
     const array = [];
 
     useEffect(() => {
+        dispatch(fetchWatchlistStarted);
         const watchlist = JSON.parse(localStorage.getItem('watchlist'));
         for (let i = watchlist.length - 1; i >= 0; i--) {
             fetch(`${URL_API}?i=${watchlist[i]}${KEY}`)
@@ -29,15 +30,13 @@ function WantToWatchList() {
                     },)
                 })
         }
-    }, []);
 
-    useEffect(() => {
-        dispatch(fetchWatchlistStarted);
         const timer = setTimeout(() => {
             dispatch(fetchWatchlistSuccess(JSON.parse(JSON.stringify(array))));
-        }, 500);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
+
 
     //Dialog box settings
     const [open, setOpen] = React.useState(false);

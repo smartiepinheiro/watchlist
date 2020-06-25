@@ -31,12 +31,10 @@ function WatchedList() {
                     },)
                 })
         }
-    }, []);
 
-    useEffect(() => {
         const timer = setTimeout(() => {
             dispatch(fetchWatchedSuccess(JSON.parse(JSON.stringify(array))));
-        }, 500);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
 

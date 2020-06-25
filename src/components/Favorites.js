@@ -20,6 +20,7 @@ function Favorites() {
     const array = [];
 
     useEffect(() => {
+        dispatch(fetchFavoritesStarted);
         const favorites = JSON.parse(localStorage.getItem('favorites'));
         for (let i = favorites.length - 1; i >= 0; i--) {
             fetch(`${URL_API}?i=${favorites[i]}${KEY}`)
@@ -29,13 +30,10 @@ function Favorites() {
                     },)
                 })
         }
-    }, []);
 
-    useEffect(() => {
-        dispatch(fetchFavoritesStarted);
         const timer = setTimeout(() => {
             dispatch(fetchFavoritesSuccess(JSON.parse(JSON.stringify(array))));
-        }, 500);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
 
