@@ -99,7 +99,7 @@ function Favorites() {
                     <NavLink to={"/search"}>
                         <Button className="button" variant="contained" color="primary"
                                 style={{marginRight: '25px'}}>
-                            <ArrowBackIosIcon/> &nbsp; Back to search
+                            <ArrowBackIosIcon/> &nbsp; Search
                         </Button>
                     </NavLink>
                 </div>
