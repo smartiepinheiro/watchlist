@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {fetchWatchedStarted, fetchWatchedSuccess, OMDB_KEY, POSTER_NOT_FOUND, OMDB_API} from '../context/Actions';
+import {fetchWatchingStarted, fetchWatchingSuccess, OMDB_KEY, POSTER_NOT_FOUND, OMDB_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import MaterialTable from "material-table";
 import DialogPopUp from "./DialogPopUp";
@@ -7,31 +7,29 @@ import ImdbRating from "./ImdbRating";
 import {tableIcons} from "../helpers/TableIcons";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import Favorite from "./Favorite";
 import AppContext from "../context/AppContext";
-import Watched from "./Watched";
-import Rating from "./Rating";
 import Loading from "./Loading";
 import {NavLink} from "react-router-dom";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import Watching from "./Watching";
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
-function WatchedList() {
+function WatchingList() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {watched} = state;
-    const {data, loading} = watched;
+    const {watching} = state;
+    const {data, loading} = watching;
 
     const array = [];
 
     useEffect(() => {
-        dispatch(fetchWatchedStarted);
-        const watched = JSON.parse(localStorage.getItem('watched'));
-        for (let i = watched.length - 1; i >= 0; i--) {
-            fetch(`${OMDB_API}?i=${watched[i].id}${OMDB_KEY}`)
+        dispatch(fetchWatchingStarted);
+        const watching = JSON.parse(localStorage.getItem('watching'));
+        for (let i = watching.length - 1; i >= 0; i--) {
+            fetch(`${OMDB_API}?i=${watching[i].id}${OMDB_KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
                         array.push(parsedJson);
@@ -40,7 +38,7 @@ function WatchedList() {
         }
 
         const timer = setTimeout(() => {
-            dispatch(fetchWatchedSuccess(JSON.parse(JSON.stringify(array))));
+            dispatch(fetchWatchingSuccess(JSON.parse(JSON.stringify(array))));
         }, 1000);
         return () => clearTimeout(timer);
     }, []);
@@ -86,65 +84,55 @@ function WatchedList() {
             )
         },
         {
-            title: 'FAVORITE', render: rowData => (
-                <Favorite id={rowData.imdbID}/>
+            title: 'Progress', render: rowData => (
+                <Watching id={rowData.imdbID}/>
             )
-        },
-        {
-            title: 'WATCHED', render: rowData => (
-                <Watched id={rowData.imdbID}/>
-            )
-        },
-        {
-            title: 'RATING', render: rowData => (
-                <Rating id={rowData.imdbID}/>
-            )
-        },
+        }
     ]);
 
-    const searchTitle = "Your watched shows:";
-    const emptyMessage = "No watched shows found.";
+    const searchTitle = "Shows you're currently watching:";
+    const emptyMessage = "No shows found.";
 
     const navBar =
-            <div>
-                <nav className="navbar">
-                    <div className="navbarleft">
-                        <NavLink to={"/search"}>
-                            <Button className="button" variant="contained" color="primary"
-                                    style={{marginRight: '25px'}}>
-                                <ArrowBackIosIcon/> &nbsp; Search
-                            </Button>
-                        </NavLink>
-                    </div>
-                    <div className="navbarright">
-                        <NavLink to={"/watching"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px'}}>
-                                Watching &nbsp; <RadioButtonUncheckedIcon/>
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/watchlist"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px'}}>
-                                Want to watch &nbsp; <BookmarkBorderIcon/>
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/watched"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px'}}>
-                                Watched &nbsp; <CheckBoxIcon color={"white"}/>
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/favorites"}>
-                            <Button className="button" variant="contained" color="secondary">
-                                Favorites &nbsp; <FavoriteBorderIcon/>
-                            </Button>
-                        </NavLink>
-                    </div>
-                </nav>
-            </div>
+        <div>
+            <nav className="navbar">
+                <div className="navbarleft">
+                    <NavLink to={"/search"}>
+                        <Button className="button" variant="contained" color="primary"
+                                style={{marginRight: '25px'}}>
+                            <ArrowBackIosIcon/> &nbsp; Search
+                        </Button>
+                    </NavLink>
+                </div>
+                <div className="navbarright">
+                    <NavLink to={"/watching"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watching &nbsp; <RadioButtonCheckedIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watchlist"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Want to watch &nbsp; <BookmarkBorderIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/favorites"}>
+                        <Button className="button" variant="contained" color="secondary">
+                            Favorites &nbsp; <FavoriteBorderIcon/>
+                        </Button>
+                    </NavLink>
+                </div>
+            </nav>
+        </div>
 
-    if (loading || (JSON.parse(localStorage.getItem('watched')).length !== 0 && data.length === 0)) {
+    if (loading || (JSON.parse(localStorage.getItem('watching')).length !== 0 && data.length === 0)) {
         return (
             <div>
                 {navBar}
@@ -166,7 +154,7 @@ function WatchedList() {
                         search: false,
                         sorting: false,
                         draggable: false,
-                        pageSize: localStorage.getItem('watched').length,
+                        pageSize: localStorage.getItem('watching').length,
                         paging: false
                     }}
                     localization={{
@@ -191,4 +179,4 @@ function WatchedList() {
     }
 }
 
-export default WatchedList;
+export default WatchingList;

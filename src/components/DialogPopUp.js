@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {URL_API, KEY, POSTER_NOT_FOUND} from "../context/Actions";
+import {OMDB_API, OMDB_KEY, POSTER_NOT_FOUND} from "../context/Actions";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
@@ -20,7 +20,7 @@ export default class DialogPopUp extends Component {
     }
 
     componentDidMount() {
-        fetch(`${URL_API}?i=${this.props.imdbID}${KEY}`)
+        fetch(`${OMDB_API}?i=${this.props.imdbID}${OMDB_KEY}`)
             .then(res => res.json())
             .then((result) => {
                     this.setState({

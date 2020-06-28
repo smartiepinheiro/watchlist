@@ -16,6 +16,12 @@ const initialState = {
         data: [],
         reload: false
     },
+    watching: {
+        loading: false,
+        error: null,
+        data: [],
+        reload: false
+    },
     watched: {
         loading: false,
         error: null,

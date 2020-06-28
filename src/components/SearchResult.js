@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {fetchListStarted, fetchListSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import {fetchListStarted, fetchListSuccess, OMDB_KEY, POSTER_NOT_FOUND, OMDB_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import AppContext from "../context/AppContext";
 import MaterialTable from "material-table";
@@ -9,6 +9,7 @@ import {tableIcons} from "../helpers/TableIcons";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import Watched from "./Watched";
+import Watching from "./Watching";
 import WantToWatch from "./WantToWatch";
 import {NavLink} from "react-router-dom";
 import TextField from "@material-ui/core/TextField/TextField";
@@ -16,6 +17,7 @@ import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Loading from "./Loading";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 
 function SearchResult() {
     const {state, dispatch} = useContext(AppContext);
@@ -26,11 +28,10 @@ function SearchResult() {
     const [search, setSearch] = useState('');
 
     let filterSearch = useRef('');
-    console.log({loading});
 
     function handleOnClick() {
         dispatch(fetchListStarted());
-        fetch(`${URL_API}?s=${search}${filterSearch.current}&page=${page}${KEY}`)
+        fetch(`${OMDB_API}?s=${search}${filterSearch.current}&page=${page}${OMDB_KEY}`)
             .then(function (response) {
                 response.json().then(function (parsedJson) {
                     if (parsedJson.Response === 'True') {
@@ -39,7 +40,6 @@ function SearchResult() {
                     }
                 })
             })
-        console.log(`${URL_API}?s=${search}${filterSearch}&page=${page}${KEY}`);
         window.scrollTo(0, 0);
     }
 
@@ -54,7 +54,8 @@ function SearchResult() {
     }
 
     useEffect(() => {
-        handleOnClick();
+        if(search !== '')
+            handleOnClick();
     }, [page])
 
     //Dialog box settings
@@ -90,6 +91,13 @@ function SearchResult() {
         {
             title: 'TYPE', render: rowData => (
                 <p>{rowData.Type.charAt(0).toUpperCase() + rowData.Type.slice(1)}</p>
+            )
+        },
+        {
+            title: 'WATCHING', render: rowData => (
+                (rowData.Type === 'series') ?
+                <Watching id={rowData.imdbID}/>
+                : 'Not applicable.'
             )
         },
         {
@@ -143,6 +151,12 @@ function SearchResult() {
             TV Shows
         </Button>
         <div className="navbarright">
+            <NavLink to={"/watching"}>
+                <Button className="button" variant="contained" color="secondary"
+                        style={{marginRight: '25px'}}>
+                    Watching &nbsp; <RadioButtonUncheckedIcon/>
+                </Button>
+            </NavLink>
             <NavLink to={"/watchlist"}>
                 <Button className="button" variant="contained" color="secondary"
                         style={{marginRight: '25px'}}>
@@ -163,7 +177,7 @@ function SearchResult() {
         </div>
     </nav>
 
-    if(loading && page !== 1 && filterSearch.current !== '') {
+    if(loading) {
         return (
             <div>
                 {navBar}

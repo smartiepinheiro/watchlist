@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {fetchFavoritesStarted, fetchFavoritesSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import {fetchFavoritesStarted, fetchFavoritesSuccess, OMDB_KEY, POSTER_NOT_FOUND, OMDB_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import MaterialTable from "material-table";
 import DialogPopUp from "./DialogPopUp";
@@ -15,6 +15,7 @@ import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 
 function Favorites() {
 
@@ -28,7 +29,7 @@ function Favorites() {
         dispatch(fetchFavoritesStarted);
         const favorites = JSON.parse(localStorage.getItem('favorites'));
         for (let i = favorites.length - 1; i >= 0; i--) {
-            fetch(`${URL_API}?i=${favorites[i]}${KEY}`)
+            fetch(`${OMDB_API}?i=${favorites[i]}${OMDB_KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
                         array.push(parsedJson);
@@ -104,6 +105,12 @@ function Favorites() {
                     </NavLink>
                 </div>
                 <div className="navbarright">
+                    <NavLink to={"/watching"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watching &nbsp; <RadioButtonUncheckedIcon/>
+                        </Button>
+                    </NavLink>
                     <NavLink to={"/watchlist"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>

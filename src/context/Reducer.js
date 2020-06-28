@@ -1,6 +1,7 @@
 import {
     FETCH_LIST_SUCCESS, FETCH_FAVORITES_SUCCESS, FETCH_WATCHED_SUCCESS, FETCH_WATCHLIST_SUCCESS,
-    FETCH_LIST_STARTED, FETCH_FAVORITES_STARTED, FETCH_WATCHED_STARTED, FETCH_WATCHLIST_STARTED
+    FETCH_LIST_STARTED, FETCH_FAVORITES_STARTED, FETCH_WATCHED_STARTED, FETCH_WATCHLIST_STARTED,
+    FETCH_WATCHING_STARTED, FETCH_WATCHING_SUCCESS
 } from './Actions'
 
 function reducer(state, action) {
@@ -34,6 +35,22 @@ function reducer(state, action) {
             return {
                 ...state,
                 favorites: {
+                    loading: false,
+                    data: [...action.payload.data]
+                }
+            };
+        case FETCH_WATCHING_STARTED:
+            return {
+                ...state,
+                watching: {
+                    loading: true,
+                    data: []
+                }
+            };
+        case FETCH_WATCHING_SUCCESS:
+            return {
+                ...state,
+                watching: {
                     loading: false,
                     data: [...action.payload.data]
                 }

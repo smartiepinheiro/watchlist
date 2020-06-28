@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {URL_API, IMDB, KEY} from "../context/Actions";
+import {OMDB_API, IMDB, OMDB_KEY} from "../context/Actions";
 import Button from "@material-ui/core/Button";
 
 export default class ImdbRating extends Component {
@@ -15,7 +15,7 @@ export default class ImdbRating extends Component {
     }
 
     setData() {
-        fetch(`${URL_API}?t=${this.props.title}${KEY}`)
+        fetch(`${OMDB_API}?t=${this.props.title}${OMDB_KEY}`)
             .then(res => res.json())
             .then((result) => {
                     this.setState({

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {fetchWatchlistStarted, fetchWatchlistSuccess, KEY, POSTER_NOT_FOUND, URL_API} from '../context/Actions';
+import {fetchWatchlistStarted, fetchWatchlistSuccess, OMDB_KEY, POSTER_NOT_FOUND, OMDB_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import MaterialTable from "material-table";
 import DialogPopUp from "./DialogPopUp";
@@ -16,6 +16,7 @@ import BookmarkIcon from "@material-ui/icons/Bookmark";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 
 function WantToWatchList() {
 
@@ -29,7 +30,7 @@ function WantToWatchList() {
         dispatch(fetchWatchlistStarted);
         const watchlist = JSON.parse(localStorage.getItem('watchlist'));
         for (let i = watchlist.length - 1; i >= 0; i--) {
-            fetch(`${URL_API}?i=${watchlist[i]}${KEY}`)
+            fetch(`${OMDB_API}?i=${watchlist[i]}${OMDB_KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
                         array.push(parsedJson);
@@ -111,6 +112,12 @@ function WantToWatchList() {
                     </NavLink>
                 </div>
                 <div className="navbarright">
+                    <NavLink to={"/watching"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Watching &nbsp; <RadioButtonUncheckedIcon/>
+                        </Button>
+                    </NavLink>
                     <NavLink to={"/watchlist"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
