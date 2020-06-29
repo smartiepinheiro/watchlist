@@ -16,6 +16,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Watching from "./Watching";
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import Progress from "./Progress";
 
 function WatchingList() {
 
@@ -28,7 +29,7 @@ function WatchingList() {
     useEffect(() => {
         dispatch(fetchWatchingStarted);
         const watching = JSON.parse(localStorage.getItem('watching'));
-        for (let i = watching.length - 1; i >= 0; i--) {
+        for (let i = 0; i < watching.length; i++) {
             fetch(`${OMDB_API}?i=${watching[i].id}${OMDB_KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
@@ -74,18 +75,18 @@ function WatchingList() {
         },
         {title: 'YEAR', field: 'Year'},
         {
-            title: 'TYPE', render: rowData => (
-                <p>{rowData.Type.charAt(0).toUpperCase() + rowData.Type.slice(1)}</p>
-            )
-        },
-        {
             title: 'IMDB', render: rowData => (
                 <ImdbRating title={rowData.Title}/>
             )
         },
         {
-            title: 'Progress', render: rowData => (
+            title: 'Watching', render: rowData => (
                 <Watching id={rowData.imdbID}/>
+            )
+        },
+        {
+            title: 'Progress', render: rowData => (
+                <Progress id={rowData.imdbID}/>
             )
         }
     ]);

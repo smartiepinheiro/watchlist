@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import Button from "@material-ui/core/Button";
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import WatchingPopUp from "./WatchingPopUp";
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
 export default class Watching extends Component {
     constructor(props) {
@@ -14,21 +11,6 @@ export default class Watching extends Component {
         };
 
         this.handleWatching = this.handleWatching.bind(this);
-        this.handlePopUpOpen = this.handlePopUpOpen.bind(this);
-        this.handlePopUpClose = this.handlePopUpClose.bind(this);
-    }
-
-    //Ratings dialog box settings
-    handlePopUpOpen = () => {
-        this.setState({
-            open: true
-        });
-    };
-
-    handlePopUpClose = () => {
-        this.setState({
-            open: false
-        });
     }
 
     handleWatching() {
@@ -40,7 +22,7 @@ export default class Watching extends Component {
                 watching: false
             });
         } else {
-            watching.push({id: this.props.id, rating: 0});
+            watching.push({id: this.props.id, seasons: []});
             localStorage.setItem('watching', JSON.stringify(watching));
             this.setState({
                 watching: true
@@ -52,9 +34,6 @@ export default class Watching extends Component {
                 watchingList.splice(watchingList.indexOf(this.props.id), 1);
                 localStorage.setItem('watching', JSON.stringify(watchingList));
             }
-
-            // TODO open watching pop up only if it's a series
-            this.handlePopUpOpen();
         }
     }
 
@@ -90,15 +69,10 @@ export default class Watching extends Component {
                     this.handleWatching()
                 }}>
                     {this.state.watching
-                        ? <CheckBoxIcon color={"secondary"}/>
-                        : <CheckBoxOutlineBlankIcon color={"secondary"}/>
+                        ? <RadioButtonCheckedIcon color={"secondary"}/>
+                        : <RadioButtonUncheckedIcon color={"secondary"}/>
                     }
                 </Button>
-                <Dialog open={this.state.open} onClose={this.handlePopUpClose}>
-                    <DialogContent>
-                        <WatchingPopUp id={this.props.id}/>
-                    </DialogContent>
-                </Dialog>
             </div>
         )
     }
