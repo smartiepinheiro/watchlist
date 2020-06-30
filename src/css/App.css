@@ -68,3 +68,9 @@ a {
 .navbarright {
     float: right;
 }
+
+.crossButton {
+    text-decoration: line-through;
+    text-decoration-color: #f50057;
+    color: #f50057;
+}

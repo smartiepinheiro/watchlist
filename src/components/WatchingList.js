@@ -29,7 +29,7 @@ function WatchingList() {
     useEffect(() => {
         dispatch(fetchWatchingStarted);
         const watching = JSON.parse(localStorage.getItem('watching'));
-        for (let i = 0; i < watching.length; i++) {
+        for (let i = watching.length - 1; i >= 0; i--) {
             fetch(`${OMDB_API}?i=${watching[i].id}${OMDB_KEY}`)
                 .then(function (response) {
                     response.json().then(function (parsedJson) {
