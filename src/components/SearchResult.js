@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {fetchListStarted, fetchListSuccess, OMDB_KEY, OMDB_API} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import AppContext from "../context/AppContext";
@@ -17,19 +17,21 @@ function SearchResult() {
     const {list} = state;
     const {loading} = list;
 
-    const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
 
+    const page = useRef(1);
     let filterSearch = useRef('&type=movie');
 
     function handleOnClick() {
         dispatch(fetchListStarted());
-        fetch(`${OMDB_API}?s=${search}${filterSearch.current}&page=${page}${OMDB_KEY}`)
+        fetch(`${OMDB_API}?s=${search}${filterSearch.current}&page=${page.current}${OMDB_KEY}`)
             .then(function (response) {
                 response.json().then(function (parsedJson) {
                     if (parsedJson.Response === 'True') {
                         dispatch(fetchListSuccess(JSON.parse(JSON.stringify(parsedJson)
                             .split('"Search":').pop().split(',"totalResults"')[0])));
+                    } else {
+                        dispatch(fetchListSuccess(JSON.parse("[]")));
                     }
                 })
             })
@@ -37,12 +39,14 @@ function SearchResult() {
     }
 
     function nextPage() {
-        setPage(page + 1);
+        page.current = page.current + 1;
+        handleOnClick();
     }
 
     function previousPage() {
-        if (page > 2) {
-            setPage(page - 1);
+        if (page.current > 1) {
+            page.current = page.current - 1;
+            handleOnClick();
         }
     }
 
@@ -57,7 +61,7 @@ function SearchResult() {
                                    if (e.key === 'Enter') {
                                        e.preventDefault();
                                        filterSearch.current = '&type=movie';
-                                       setPage(1);
+                                       page.current = 1;
                                        handleOnClick();
                                    }
                                }}/>
@@ -66,7 +70,7 @@ function SearchResult() {
             <Button className="button" variant="contained" color="primary"
                     style={{marginLeft: '25px'}} onClick={() => {
                 filterSearch.current = '&type=movie';
-                setPage(1);
+                page.current = 1;
                 handleOnClick()
             }}>
                 Movies
@@ -74,7 +78,7 @@ function SearchResult() {
             <Button className="button" variant="contained" color="primary"
                     style={{marginLeft: '25px', opacity: '0.6'}} onClick={() => {
                 filterSearch.current = '&type=series';
-                setPage(1);
+                page.current = 1;
                 handleOnClick()
             }}>
                 TV Shows
@@ -115,7 +119,7 @@ function SearchResult() {
                                    if (e.key === 'Enter') {
                                        e.preventDefault();
                                        filterSearch.current = '&type=movie';
-                                       setPage(1);
+                                       page.current = 1;
                                        handleOnClick();
                                    }
                                }}/>
@@ -124,7 +128,7 @@ function SearchResult() {
             <Button className="button" variant="contained" color="primary"
                     style={{marginLeft: '25px', opacity: '0.6'}} onClick={() => {
                 filterSearch.current = '&type=movie';
-                setPage(1);
+                page.current = 1;
                 handleOnClick()
             }}>
                 Movies
@@ -132,7 +136,7 @@ function SearchResult() {
             <Button className="button" variant="contained" color="primary"
                     style={{marginLeft: '25px'}} onClick={() => {
                 filterSearch.current = '&type=series';
-                setPage(1);
+                page.current = 1;
                 handleOnClick()
             }}>
                 TV Shows
