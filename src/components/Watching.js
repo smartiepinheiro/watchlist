@@ -22,17 +22,17 @@ export default class Watching extends Component {
                 watching: false
             });
         } else {
-            watching.push({id: this.props.id, seasons: []});
+            watching.push({id: this.props.id, rating: 0, seasons: []});
             localStorage.setItem('watching', JSON.stringify(watching));
             this.setState({
                 watching: true
             });
 
             // when watching delete show from want to watch list
-            let watchingList = JSON.parse(localStorage.getItem('watchlist'));
+            let watchingList = JSON.parse(localStorage.getItem('seriesWatchlist'));
             if(watchingList.includes(this.props.id)) {
                 watchingList.splice(watchingList.indexOf(this.props.id), 1);
-                localStorage.setItem('watchlist', JSON.stringify(watchingList));
+                localStorage.setItem('seriesWatchlist', JSON.stringify(watchingList));
             }
         }
     }

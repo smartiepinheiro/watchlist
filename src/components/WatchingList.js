@@ -17,6 +17,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Watching from "./Watching";
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import Progress from "./Progress";
+import Favorite from "./Favorite";
+import Rating from "./Rating";
 
 function WatchingList() {
 
@@ -27,7 +29,7 @@ function WatchingList() {
     const array = [];
 
     useEffect(() => {
-        dispatch(fetchWatchingStarted);
+        dispatch(fetchWatchingStarted());
         const watching = JSON.parse(localStorage.getItem('watching'));
         for (let i = watching.length - 1; i >= 0; i--) {
             fetch(`${OMDB_API}?i=${watching[i].id}${OMDB_KEY}`)
@@ -80,13 +82,23 @@ function WatchingList() {
             )
         },
         {
-            title: 'Watching', render: rowData => (
+            title: 'WATCHING', render: rowData => (
                 <Watching id={rowData.imdbID}/>
             )
         },
         {
-            title: 'Progress', render: rowData => (
+            title: 'PROGRESS', render: rowData => (
                 <Progress id={rowData.imdbID}/>
+            )
+        },
+        {
+            title: 'FAVORITE', render: rowData => (
+                <Favorite id={rowData.imdbID}/>
+            )
+        },
+        {
+            title: 'RATING', render: rowData => (
+                <Rating id={rowData.imdbID} type={rowData.Type}/>
             )
         }
     ]);
@@ -109,19 +121,19 @@ function WatchingList() {
                     <NavLink to={"/watching"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
-                            Watching &nbsp; <RadioButtonCheckedIcon/>
+                            Shows you're watching &nbsp; <RadioButtonCheckedIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Movies watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/watchlist"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
                             Want to watch &nbsp; <BookmarkBorderIcon/>
-                        </Button>
-                    </NavLink>
-                    <NavLink to={"/watched"}>
-                        <Button className="button" variant="contained" color="secondary"
-                                style={{marginRight: '25px'}}>
-                            Watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/favorites"}>

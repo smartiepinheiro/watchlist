@@ -48,10 +48,10 @@ export default class Watched extends Component {
             });
 
             // when watched delete show from want to watch list
-            let watchlist = JSON.parse(localStorage.getItem('watchlist'));
+            let watchlist = JSON.parse(localStorage.getItem('movieWatchlist'));
             if(watchlist.includes(this.props.id)) {
                 watchlist.splice(watchlist.indexOf(this.props.id), 1);
-                localStorage.setItem('watchlist', JSON.stringify(watchlist));
+                localStorage.setItem('movieWatchlist', JSON.stringify(watchlist));
             }
 
             // ask for a rating
@@ -97,7 +97,7 @@ export default class Watched extends Component {
                 </Button>
                 <Dialog open={this.state.openRatings} onClose={this.handleRatingsClose}>
                     <DialogContent>
-                        <RatingsPopUp id={this.props.id}/>
+                        <RatingsPopUp id={this.props.id} type={this.props.type}/>
                     </DialogContent>
                 </Dialog>
             </div>

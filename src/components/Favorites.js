@@ -26,7 +26,7 @@ function Favorites() {
     const array = [];
 
     useEffect(() => {
-        dispatch(fetchFavoritesStarted);
+        dispatch(fetchFavoritesStarted());
         const favorites = JSON.parse(localStorage.getItem('favorites'));
         for (let i = favorites.length - 1; i >= 0; i--) {
             fetch(`${OMDB_API}?i=${favorites[i]}${OMDB_KEY}`)
@@ -108,19 +108,19 @@ function Favorites() {
                     <NavLink to={"/watching"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
-                            Watching &nbsp; <RadioButtonUncheckedIcon/>
+                            Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Movies watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/watchlist"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
                             Want to watch &nbsp; <BookmarkBorderIcon/>
-                        </Button>
-                    </NavLink>
-                    <NavLink to={"/watched"}>
-                        <Button className="button" variant="contained" color="secondary"
-                                style={{marginRight: '25px'}}>
-                            Watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/favorites"}>
