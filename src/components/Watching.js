@@ -29,10 +29,10 @@ export default class Watching extends Component {
             });
 
             // when watching delete show from want to watch list
-            let watchingList = JSON.parse(localStorage.getItem('watching'));
+            let watchingList = JSON.parse(localStorage.getItem('watchlist'));
             if(watchingList.includes(this.props.id)) {
                 watchingList.splice(watchingList.indexOf(this.props.id), 1);
-                localStorage.setItem('watching', JSON.stringify(watchingList));
+                localStorage.setItem('watchlist', JSON.stringify(watchingList));
             }
         }
     }
