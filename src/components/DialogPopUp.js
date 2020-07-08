@@ -3,6 +3,7 @@ import {OMDB_API, OMDB_KEY, POSTER_NOT_FOUND} from "../context/Actions";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
+import Loading from "./Loading";
 
 export default class DialogPopUp extends Component {
     constructor(props) {
@@ -47,34 +48,38 @@ export default class DialogPopUp extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <div style={{display: 'flex'}}>
-                    {this.renderPoster()}
-                    <List style={{float: 'right'}}>
+        if (this.state.title === "") {
+            return <Loading/>
+        } else {
+            return (
+                <div>
+                    <div style={{display: 'flex'}}>
+                        {this.renderPoster()}
+                        <List style={{float: 'right'}}>
+                            <ListItem>
+                                <ListItemText primary="Title" secondary={this.state.title}/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Released" secondary={this.state.released}/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="IMDB Rating" secondary={this.state.rating}/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Runtime" secondary={this.state.runtime}/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Genre" secondary={this.state.genre}/>
+                            </ListItem>
+                        </List>
+                    </div>
+                    <List>
                         <ListItem>
-                            <ListItemText primary="Title" secondary={this.state.title}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Released" secondary={this.state.released}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="IMDB Rating" secondary={this.state.rating}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Runtime" secondary={this.state.runtime}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Genre" secondary={this.state.genre}/>
+                            <ListItemText primary="Plot" secondary={this.state.plot}/>
                         </ListItem>
                     </List>
                 </div>
-                <List>
-                    <ListItem>
-                        <ListItemText primary="Plot" secondary={this.state.plot}/>
-                    </ListItem>
-                </List>
-            </div>
-        )
+            )
+        }
     }
 }
