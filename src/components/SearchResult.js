@@ -103,19 +103,19 @@ function SearchResult() {
                 <NavLink to={"/watching"}>
                     <Button className="button" variant="contained" color="secondary"
                             style={{marginRight: '25px'}}>
-                        Watching &nbsp; <RadioButtonUncheckedIcon/>
+                        Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/watched"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Movies watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watchlist"}>
                     <Button className="button" variant="contained" color="secondary"
                             style={{marginRight: '25px'}}>
                         Want to watch &nbsp; <BookmarkBorderIcon/>
-                    </Button>
-                </NavLink>
-                <NavLink to={"/watched"}>
-                    <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
-                        Watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/favorites"}>
@@ -134,7 +134,6 @@ function SearchResult() {
                                onKeyPress={e => {
                                    if (e.key === 'Enter') {
                                        e.preventDefault();
-                                       filterSearch.current = '&type=movie';
                                        page.current = 1;
                                        handleOnClick();
                                    }
@@ -161,19 +160,19 @@ function SearchResult() {
                 <NavLink to={"/watching"}>
                     <Button className="button" variant="contained" color="secondary"
                             style={{marginRight: '25px'}}>
-                        Watching &nbsp; <RadioButtonUncheckedIcon/>
+                        Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
+                    </Button>
+                </NavLink>
+                <NavLink to={"/watched"}>
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{marginRight: '25px'}}>
+                        Movies watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watchlist"}>
                     <Button className="button" variant="contained" color="secondary"
                             style={{marginRight: '25px'}}>
                         Want to watch &nbsp; <BookmarkBorderIcon/>
-                    </Button>
-                </NavLink>
-                <NavLink to={"/watched"}>
-                    <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
-                        Watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/favorites"}>
@@ -199,7 +198,7 @@ function SearchResult() {
                 <MoviesTable/>
                 <div>
                     <Button onClick={previousPage}>previous page</Button>
-                    <Button style={{width: '85%', pointerEvents: 'none'}}>{pagesCount}</Button>
+                    <Button style={{width: '80vw', pointerEvents: 'none'}}>{pagesCount}</Button>
                     <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
                 </div>
             </div>
@@ -211,7 +210,7 @@ function SearchResult() {
                 <SeriesTable/>
                 <div>
                     <Button onClick={previousPage}>previous page</Button>
-                    <Button style={{width: '85%', pointerEvents: 'none'}}>{pagesCount}</Button>
+                    <Button style={{width: '80vw', pointerEvents: 'none'}}>{pagesCount}</Button>
                     <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
                 </div>
             </div>

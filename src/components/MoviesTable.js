@@ -53,12 +53,12 @@ function MoviesTable() {
         },
         {
             title: 'WATCHED', render: rowData => (
-                <Watched id={rowData.imdbID}/>
+                <Watched id={rowData.imdbID} type={rowData.Type}/>
             )
         },
         {
             title: 'WANT TO WATCH', render: rowData => (
-                <WantToWatch id={rowData.imdbID}/>
+                <WantToWatch id={rowData.imdbID} type={rowData.Type}/>
             )
         },
         {
