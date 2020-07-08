@@ -19,24 +19,31 @@ export default class Rating extends Component {
     }
 
     setData() {
-        let watched = JSON.parse(localStorage.getItem('watched'));
-        let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
+        if(this.props.type === 'movie') {
+            let watched = JSON.parse(localStorage.getItem('watched'));
+            let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
 
-        if(watchedFiltered.length > 0) {
-            this.setState({
-                rating: watchedFiltered[0].rating
-            });
+            if(watchedFiltered.length > 0) {
+                this.setState({
+                    rating: watchedFiltered[0].rating
+                });
+            }
+        }
+
+        else {
+            let watching = JSON.parse(localStorage.getItem('watching'));
+            let watchingFiltered = watching.filter(watching => watching.id === this.props.id);
+
+            if(watchingFiltered.length > 0) {
+                this.setState({
+                    rating: watchingFiltered[0].rating
+                });
+            }
         }
     }
 
     componentDidMount() {
         this.setData();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.id !== this.props.id) {
-            this.setData();
-        }
     }
 
     renderStars() {
@@ -103,6 +110,8 @@ export default class Rating extends Component {
         this.setState({
             openRatings: false
         });
+
+        this.setData();
     };
 
     render() {
@@ -112,7 +121,7 @@ export default class Rating extends Component {
                 </Button>
                 <Dialog open={this.state.openRatings} onClose={this.handleRatingsClose}>
                     <DialogContent>
-                        <RatingsPopUp id={this.props.id} state={this.state}/>
+                        <RatingsPopUp id={this.props.id} type={this.props.type}/>
                     </DialogContent>
                 </Dialog>
             </div>

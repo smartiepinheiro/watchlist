@@ -44,31 +44,61 @@ export default class RatingsPopUp extends Component {
     }
 
     componentDidMount() {
-        let watched = JSON.parse(localStorage.getItem('watched'));
-        let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
-        this.setState({
-            rating: watchedFiltered[0].rating
-        }); this.star = watchedFiltered[0].rating;
+        console.log(this.props.type);
+        if(this.props.type === 'movie') {
+            let watched = JSON.parse(localStorage.getItem('watched'));
+            let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
+            this.setState({
+                rating: watchedFiltered[0].rating
+            }); this.star = watchedFiltered[0].rating;
 
-        this.updateStars();
+            this.updateStars();
+        }
+
+        else {
+            let watching = JSON.parse(localStorage.getItem('watching'));
+            let watchingFiltered = watching.filter(watching => watching.id === this.props.id);
+
+            this.setState({
+                rating: watchingFiltered[0].rating
+            }); this.star = watchingFiltered[0].rating;
+
+            this.updateStars();
+        }
     }
 
     changeRating() {
-        // remove element
-        let watchedBefore = JSON.parse(localStorage.getItem('watched'));
-        let watchedFiltered = watchedBefore.filter(watched => watched.id !== this.props.id);
-        localStorage.setItem('watched', JSON.stringify(watchedFiltered));
+        if(this.props.type === 'movie') {
+            // remove element
+            let watchedBefore = JSON.parse(localStorage.getItem('watched'));
+            let watchedFiltered = watchedBefore.filter(watched => watched.id !== this.props.id);
+            localStorage.setItem('watched', JSON.stringify(watchedFiltered));
 
-        // push element with updated rating
-        let watchedAfter = JSON.parse(localStorage.getItem('watched'));
-        watchedAfter.push({id: this.props.id, rating: this.star});
-        localStorage.setItem('watched', JSON.stringify(watchedAfter));
+            // push element with updated rating
+            let watchedAfter = JSON.parse(localStorage.getItem('watched'));
+            watchedAfter.push({id: this.props.id, rating: this.star});
+            localStorage.setItem('watched', JSON.stringify(watchedAfter));
 
-        this.updateStars();
+            this.updateStars();
+        }
 
-        // TODO change to just Ratings component update
-        if (window.location.pathname !== "/search") {
-            window.location.reload();
+        else {
+            // copy element
+            let watchingBefore = JSON.parse(localStorage.getItem('watching'));
+            let watchingFiltered = watchingBefore.filter(watched => watched.id === this.props.id);
+            let copy = watchingFiltered[0];
+            copy.rating = this.star;
+
+            // remove element
+            let watchingFilteredWithout = watchingBefore.filter(watched => watched.id !== this.props.id);
+            localStorage.setItem('watching', JSON.stringify(watchingFilteredWithout));
+
+            // push element with updated rating
+            let watchingAfter = JSON.parse(localStorage.getItem('watching'));
+            watchingAfter.push(copy);
+            localStorage.setItem('watching', JSON.stringify(watchingAfter));
+
+            this.updateStars();
         }
     }
 
