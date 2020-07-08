@@ -7,17 +7,18 @@ export default class WantToWatch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            wantToWatch: false
+            wantToWatch: false,
+            type: 'movie'
         };
 
         this.handleWantToWatch = this.handleWantToWatch.bind(this);
     }
 
     handleWantToWatch() {
-        let watchlist = JSON.parse(localStorage.getItem('watchlist'));
+        let watchlist = JSON.parse(localStorage.getItem(this.state.type + 'Watchlist'));
         if (this.state.wantToWatch) {
             watchlist.splice(watchlist.indexOf(this.props.id), 1);
-            localStorage.setItem('watchlist', JSON.stringify(watchlist));
+            localStorage.setItem(this.state.type + 'Watchlist', JSON.stringify(watchlist));
             this.setState({
                 wantToWatch: false
             });
@@ -26,7 +27,7 @@ export default class WantToWatch extends Component {
             let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
             if(watchedFiltered.length === 0) {
                 watchlist.push(this.props.id);
-                localStorage.setItem('watchlist', JSON.stringify(watchlist));
+                localStorage.setItem(this.state.type + 'Watchlist', JSON.stringify(watchlist));
                 this.setState({
                     wantToWatch: true
                 });
@@ -35,7 +36,12 @@ export default class WantToWatch extends Component {
     }
 
     setData() {
-        let watchlist = JSON.parse(localStorage.getItem('watchlist'));
+        if(this.props.type === 'series'){
+            this.setState({
+                type: 'series'
+            });
+        }
+        let watchlist = JSON.parse(localStorage.getItem(this.props.type + 'Watchlist'));
         if (watchlist.includes(this.props.id)) {
             this.setState({
                 wantToWatch: true

@@ -24,9 +24,14 @@ function App() {
         localStorage.setItem("watched", JSON.stringify(watched));
     }
 
-    if (localStorage.getItem('watchlist') === null) {
+    if (localStorage.getItem('movieWatchlist') === null) {
         const watched = [];
-        localStorage.setItem("watchlist", JSON.stringify(watched));
+        localStorage.setItem("movieWatchlist", JSON.stringify(watched));
+    }
+
+    if (localStorage.getItem('seriesWatchlist') === null) {
+        const watched = [];
+        localStorage.setItem("seriesWatchlist", JSON.stringify(watched));
     }
 
     return (

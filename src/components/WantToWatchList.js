@@ -9,6 +9,7 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import AppContext from "../context/AppContext";
 import Watched from "./Watched";
+import Watching from "./Watching";
 import WantToWatch from "./WantToWatch";
 import Loading from "./Loading";
 import {NavLink} from "react-router-dom";
@@ -24,11 +25,12 @@ function WantToWatchList() {
     const {watchlist} = state;
     const {data, loading} = watchlist;
 
+    const [tab, setTab] = useState('movieWatchlist');
     const array = [];
 
     useEffect(() => {
-        dispatch(fetchWatchlistStarted);
-        const watchlist = JSON.parse(localStorage.getItem('watchlist'));
+        dispatch(fetchWatchlistStarted());
+        const watchlist = JSON.parse(localStorage.getItem(tab));
         for (let i = watchlist.length - 1; i >= 0; i--) {
             fetch(`${OMDB_API}?i=${watchlist[i]}${OMDB_KEY}`)
                 .then(function (response) {
@@ -42,7 +44,7 @@ function WantToWatchList() {
             dispatch(fetchWatchlistSuccess(JSON.parse(JSON.stringify(array))));
         }, 1500);
         return () => clearTimeout(timer);
-    }, []);
+    }, [tab]);
 
 
     //Dialog box settings
@@ -58,47 +60,131 @@ function WantToWatchList() {
         setOpen(false);
     };
 
-    const [columns] = useState([
-        {
-            title: 'POSTER', render: rowData =>
-                rowData.Poster !== 'N/A' ?
-                    <img src={rowData.Poster} style={{width: 100, borderRadius: '5px'}}/>
-                    : <img src={POSTER_NOT_FOUND} style={{width: 100, borderRadius: '5px'}}/>
-        },
-        {
-            title: 'TITLE', render: rowData =>
-                (
-                    <Button style={{textAlign: 'left'}} color="primary" onClick={() => {
-                        handleDialogOpen(rowData.imdbID)
-                    }}> {rowData.Title}
-                    </Button>
-                )
-        },
-        {title: 'YEAR', field: 'Year'},
-        {
-            title: 'TYPE', render: rowData => (
-                <p>{rowData.Type.charAt(0).toUpperCase() + rowData.Type.slice(1)}</p>
-            )
-        },
-        {
-            title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
-            )
-        },
-        {
-            title: 'WATCHED', render: rowData => (
-                <Watched id={rowData.imdbID}/>
-            )
-        },
-        {
-            title: 'WANT TO WATCH', render: rowData => (
-                <WantToWatch id={rowData.imdbID}/>
-            )
-        }
-    ]);
+    let columns;
 
-    const searchTitle = "Shows you want to watch:";
-    const emptyMessage = "No watchlist shows found.";
+    if (tab === "movieWatchlist") {
+        columns = [
+            {
+                title: 'POSTER', render: rowData =>
+                    rowData.Poster !== 'N/A' ?
+                        <img src={rowData.Poster} style={{width: 100, borderRadius: '5px'}}/>
+                        : <img src={POSTER_NOT_FOUND} style={{width: 100, borderRadius: '5px'}}/>
+            },
+            {
+                title: 'TITLE', render: rowData =>
+                    (
+                        <Button style={{textAlign: 'left'}} color="primary" onClick={() => {
+                            handleDialogOpen(rowData.imdbID)
+                        }}> {rowData.Title}
+                        </Button>
+                    )
+            },
+            {title: 'YEAR', field: 'Year'},
+            {
+                title: 'TYPE', render: rowData => (
+                    <p>{rowData.Type.charAt(0).toUpperCase() + rowData.Type.slice(1)}</p>
+                )
+            },
+            {
+                title: 'IMDB', render: rowData => (
+                    <ImdbRating title={rowData.Title}/>
+                )
+            },
+            {
+                title: 'WATCHED', render: rowData => (
+                    <Watched id={rowData.imdbID} type={rowData.Type}/>
+                )
+            },
+            {
+                title: 'WANT TO WATCH', render: rowData => (
+                    <WantToWatch id={rowData.imdbID} type={rowData.Type}/>
+                )
+            }]
+    } else {
+        columns = [
+            {
+                title: 'POSTER', render: rowData =>
+                    rowData.Poster !== 'N/A' ?
+                        <img src={rowData.Poster} style={{width: 100, borderRadius: '5px'}}/>
+                        : <img src={POSTER_NOT_FOUND} style={{width: 100, borderRadius: '5px'}}/>
+            },
+            {
+                title: 'TITLE', render: rowData =>
+                    (
+                        <Button style={{textAlign: 'left'}} color="primary" onClick={() => {
+                            handleDialogOpen(rowData.imdbID)
+                        }}> {rowData.Title}
+                        </Button>
+                    )
+            },
+            {title: 'YEAR', field: 'Year'},
+            {
+                title: 'TYPE', render: rowData => (
+                    <p>{rowData.Type.charAt(0).toUpperCase() + rowData.Type.slice(1)}</p>
+                )
+            },
+            {
+                title: 'IMDB', render: rowData => (
+                    <ImdbRating title={rowData.Title}/>
+                )
+            },
+            {
+                title: 'STARTED WATCHING', render: rowData => (
+                    <Watching id={rowData.imdbID}/>
+                )
+            },
+            {
+                title: 'WANT TO WATCH', render: rowData => (
+                    <WantToWatch id={rowData.imdbID} type={rowData.Type}/>
+                )
+            }]
+    }
+
+    let searchTitle;
+    if (tab === "movieWatchlist") {
+        searchTitle = "Movies you want to watch:";
+    } else searchTitle = "Shows you want to watch:";
+
+    let emptyMessage;
+    if (tab === "movieWatchlist") {
+        emptyMessage = "No movies found."
+    } else emptyMessage = "No tv shows found."
+
+    function changeTab(newTab) {
+        setTab(newTab);
+    }
+
+    let buttons;
+
+    if (tab === "movieWatchlist") {
+        buttons =
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                <Button className="button" color="primary" style={{fontWeight: 'bold'}}
+                        onClick={() => changeTab('movieWatchlist')}>
+                    Movies
+                </Button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <Button className="button" color="transparent"
+                        onClick={() => changeTab('seriesWatchlist')}>
+                    TvShows
+                </Button>
+            </div>
+    }
+
+    else {
+        buttons =
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                <Button className="button" color="transparent"
+                        onClick={() => changeTab('movieWatchlist')}>
+                    Movies
+                </Button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <Button className="button" color="primary" style={{fontWeight: 'bold'}}
+                        onClick={() => changeTab('seriesWatchlist')}>
+                    TvShows
+                </Button>
+            </div>
+    }
 
     const navBar =
         <div>
@@ -115,19 +201,19 @@ function WantToWatchList() {
                     <NavLink to={"/watching"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
-                            Watching &nbsp; <RadioButtonUncheckedIcon/>
+                            Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Movies watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/watchlist"}>
                         <Button className="button" variant="contained" color="secondary"
                                 style={{marginRight: '25px'}}>
                             Want to watch &nbsp; <BookmarkIcon/>
-                        </Button>
-                    </NavLink>
-                    <NavLink to={"/watched"}>
-                        <Button className="button" variant="contained" color="secondary"
-                                style={{marginRight: '25px'}}>
-                            Watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/favorites"}>
@@ -137,50 +223,51 @@ function WantToWatchList() {
                     </NavLink>
                 </div>
             </nav>
+            {buttons}
         </div>
 
-    if (loading || (JSON.parse(localStorage.getItem('watchlist')).length !== 0 && data.length === 0)) {
+    if (loading || (JSON.parse(localStorage.getItem(tab)).length !== 0 && data.length === 0)) {
         return (
             <div>
                 {navBar}
                 <Loading/>
             </div>
         )
-    }
-
-    else {
+    } else {
         return (
             <div>
                 {navBar}
-                <MaterialTable
-                    title={searchTitle}
-                    icons={tableIcons}
-                    columns={columns}
-                    data={data}
-                    options={{
-                        search: false,
-                        sorting: false,
-                        draggable: false,
-                        pageSize: localStorage.getItem('watchlist').length,
-                        paging: false
-                    }}
-                    localization={{
-                        pagination: {
-                            labelDisplayedRows: '{from}-{to} of {count}'
-                        },
-                        header: {
-                            actions: 'Actions'
-                        },
-                        body: {
-                            emptyDataSourceMessage: emptyMessage,
-                        },
-                    }}
-                />
-                <Dialog open={open} onClose={handleDialogClose}>
-                    <DialogContent>
-                        <DialogPopUp imdbID={imdbID}/>
-                    </DialogContent>
-                </Dialog>
+                <div>
+                    <MaterialTable
+                        title={searchTitle}
+                        icons={tableIcons}
+                        columns={columns}
+                        data={data}
+                        options={{
+                            search: false,
+                            sorting: false,
+                            draggable: false,
+                            pageSize: localStorage.getItem(tab).length,
+                            paging: false
+                        }}
+                        localization={{
+                            pagination: {
+                                labelDisplayedRows: '{from}-{to} of {count}'
+                            },
+                            header: {
+                                actions: 'Actions'
+                            },
+                            body: {
+                                emptyDataSourceMessage: emptyMessage,
+                            },
+                        }}
+                    />
+                    <Dialog open={open} onClose={handleDialogClose}>
+                        <DialogContent>
+                            <DialogPopUp imdbID={imdbID}/>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </div>
         )
     }
