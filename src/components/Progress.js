@@ -17,7 +17,7 @@ export default class Progress extends Component {
         this.handlePopUpClose = this.handlePopUpClose.bind(this);
     }
 
-    componentDidMount() {
+    setData(){
         let watched = JSON.parse(localStorage.getItem("watching"));
         let watchedFilteredByID = watched.filter(saved => saved.id === this.props.id);
 
@@ -34,11 +34,9 @@ export default class Progress extends Component {
         // total episode count
         let totalCount = 0;
 
-        console.log(`${TMDB_API}find/${this.props.id}${TMDB_KEY}&external_source=imdb_id`);
         fetch(`${TMDB_API}find/${this.props.id}${TMDB_KEY}&external_source=imdb_id`)
             .then(res => res.json())
             .then((result) => {
-                console.log(`${TMDB_API}tv/${result.tv_results[0].id}${TMDB_KEY}`);
                 fetch(`${TMDB_API}tv/${result.tv_results[0].id}${TMDB_KEY}`)
                     .then(res => res.json())
                     .then((result) => {
@@ -46,9 +44,6 @@ export default class Progress extends Component {
 
                         // calculate percentage
                         let percentage = Math.trunc((watchedCount * 100) / totalCount);
-
-                        console.log("watched: " + watchedCount);
-                        console.log("total: " + totalCount);
 
                         this.setState({
                             percentage: percentage
@@ -69,7 +64,11 @@ export default class Progress extends Component {
             open: false
         });
 
-        window.location.reload();
+        this.setData();
+    }
+
+    componentDidMount() {
+        this.setData();
     }
 
     render() {

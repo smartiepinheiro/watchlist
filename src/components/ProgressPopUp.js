@@ -9,7 +9,8 @@ export default class ProgressPopUp extends Component {
             tmdbId: 0,
             numberOfSeasons: 0,
             seasons: [],
-            loading: true
+            loading: true,
+            className: ""
         };
     }
 
@@ -64,7 +65,15 @@ export default class ProgressPopUp extends Component {
         return 0;
     }
 
+    selectEpisode(){
+        this.setState({className: "selectedEpisodeButton"});
+    }
+
     markAsWatched(season, episode) {
+
+        // change button color
+        this.selectEpisode();
+
         let watched = JSON.parse(localStorage.getItem("watching"));
         let watchedFilteredByID = watched.filter(saved => saved.id === this.props.id);
 
@@ -182,18 +191,13 @@ export default class ProgressPopUp extends Component {
                                             this.watchedEps = this.watchedEpisode(seasons.season, episode.id);
 
                                             if (this.watchedEps === true) {
-                                                return <Button key={id}
+                                                return <Button key={id} classes={{label: "selectedEpisodeButton"}}
                                                                onClick={() => {
-                                                                   this.markAsWatched(seasons.season, episode.id)
-                                                               }}
-                                                               style={{
-                                                                   textDecoration: "line-through",
-                                                                   textDecorationColor: "#f50057",
-                                                                   color: "#f50057"
+                                                                   this.markAsWatched(seasons.season, episode.id);
                                                                }}>
                                                     {episode.id} - {episode.name}</Button>
                                             } else {
-                                                return <Button key={id}
+                                                return <Button key={id} classes={{label: this.state.buttonStyle}}
                                                                onClick={() => {
                                                                    this.markAsWatched(seasons.season, episode.id);
                                                                }}>{episode.id} - {episode.name}</Button>
