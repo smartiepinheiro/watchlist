@@ -15,10 +15,11 @@ import SeriesTable from "./SeriesTable";
 function SearchResult() {
     const {state, dispatch} = useContext(AppContext);
     const {list} = state;
-    const {loading} = list;
+    const {loading, data} = list;
 
     const [search, setSearch] = useState('');
 
+    const totalPages = useRef(0);
     const page = useRef(1);
     let filterSearch = useRef('&type=movie');
 
@@ -28,6 +29,7 @@ function SearchResult() {
             .then(function (response) {
                 response.json().then(function (parsedJson) {
                     if (parsedJson.Response === 'True') {
+                        totalPages.current = Math.ceil(parsedJson.totalResults  / 10);
                         dispatch(fetchListSuccess(JSON.parse(JSON.stringify(parsedJson)
                             .split('"Search":').pop().split(',"totalResults"')[0])));
                     } else {
@@ -39,14 +41,28 @@ function SearchResult() {
     }
 
     function nextPage() {
-        page.current = page.current + 1;
-        handleOnClick();
+        if(page.current < totalPages.current) {
+            page.current = page.current + 1;
+            handleOnClick();
+        }
     }
 
     function previousPage() {
         if (page.current > 1) {
             page.current = page.current - 1;
             handleOnClick();
+        }
+    }
+
+    let pagesCount = "";
+
+    if(!loading && data.length !== 0) {
+        if(totalPages.current === "1"){
+            pagesCount = "1/1";
+        }
+
+        else {
+            pagesCount = page.current + "/" + totalPages.current;
         }
     }
 
@@ -183,6 +199,7 @@ function SearchResult() {
                 <MoviesTable/>
                 <div>
                     <Button onClick={previousPage}>previous page</Button>
+                    <Button style={{width: '85%', pointerEvents: 'none'}}>{pagesCount}</Button>
                     <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
                 </div>
             </div>
@@ -194,6 +211,7 @@ function SearchResult() {
                 <SeriesTable/>
                 <div>
                     <Button onClick={previousPage}>previous page</Button>
+                    <Button style={{width: '85%', pointerEvents: 'none'}}>{pagesCount}</Button>
                     <Button onClick={nextPage} style={{float: 'right'}}>next page</Button>
                 </div>
             </div>
