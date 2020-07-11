@@ -13,12 +13,14 @@ export const FETCH_FAVORITES_STARTED = 'FETCH_FAVORITES_STARTED';
 export const FETCH_WATCHING_STARTED = 'FETCH_WATCHING_STARTED';
 export const FETCH_WATCHED_STARTED = 'FETCH_WATCHED_STARTED';
 export const FETCH_WATCHLIST_STARTED = 'FETCH_WATCHLIST_STARTED';
+export const FETCH_TRENDING_STARTED = 'FETCH_TRENDING_STARTED';
 
 export const FETCH_LIST_SUCCESS = 'FETCH_LIST_SUCCESS';
 export const FETCH_FAVORITES_SUCCESS = 'FETCH_FAVORITES_SUCCESS';
 export const FETCH_WATCHING_SUCCESS = 'FETCH_WATCHING_SUCCESS';
 export const FETCH_WATCHED_SUCCESS = 'FETCH_WATCHED_SUCCESS';
 export const FETCH_WATCHLIST_SUCCESS = 'FETCH_WATCHLIST_SUCCESS';
+export const FETCH_TRENDING_SUCCESS = 'FETCH_TRENDING_SUCCESS';
 
 export function fetchListStarted() {
     return {
@@ -32,6 +34,22 @@ export function fetchListSuccess(list) {
         payload: {
             data:
                 [...list]
+        }
+    }
+}
+
+export function fetchTrendingStarted() {
+    return {
+        type: FETCH_TRENDING_STARTED
+    }
+}
+
+export function fetchTrendingSuccess(trending) {
+    return {
+        type: FETCH_TRENDING_SUCCESS,
+        payload: {
+            data:
+                [...trending]
         }
     }
 }

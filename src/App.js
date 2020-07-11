@@ -1,7 +1,8 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import './css/App.css';
 import Favorites from "./components/Favorites";
+import TrendingList from "./components/TrendingList";
 import SearchResult from "./components/SearchResult";
 import WatchedList from "./components/WatchedList";
 import WantToWatchList from "./components/WantToWatchList";
@@ -34,16 +35,24 @@ function App() {
         localStorage.setItem("seriesWatchlist", JSON.stringify(watched));
     }
 
+    // to delete later
+    if (localStorage.getItem('watchlist') !== null) {
+        localStorage.removeItem("watchlist");
+    }
+
     return (
         <div className="app-routes">
             <Router>
                 <Switch>
                     <Route path="/search" component={SearchResult}/>
+                    <Route path="/trending" component={TrendingList}/>
                     <Route path="/watching" component={WatchingList}/>
                     <Route path="/watchlist" component={WantToWatchList}/>
                     <Route path="/watched" component={WatchedList}/>
                     <Route path="/favorites" component={Favorites}/>
-                    <Route path="/" component={SearchResult}/>
+
+                    // if none match redirect to trending
+                    <Route render={() => <Redirect to="/trending" />} />
                 </Switch>
             </Router>
         </div>

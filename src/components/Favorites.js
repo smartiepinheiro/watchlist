@@ -16,6 +16,7 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
 
 function Favorites() {
 
@@ -80,7 +81,7 @@ function Favorites() {
         },
         {
             title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
+                <ImdbRating id={rowData.imdbID}/>
             )
         },
         {
@@ -99,27 +100,33 @@ function Favorites() {
                 <div className="navbarleft">
                     <NavLink to={"/search"}>
                         <Button className="button" variant="contained" color="primary"
-                                style={{marginRight: '25px'}}>
+                                style={{marginRight: '25px', opacity: '0.6'}}>
                             <ArrowBackIosIcon/> &nbsp; Search
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/trending"}>
+                        <Button className="button" variant="contained" color="secondary"
+                                style={{marginRight: '25px', opacity: '0.6'}}>
+                            <WhatshotIcon/>
                         </Button>
                     </NavLink>
                 </div>
                 <div className="navbarright">
                     <NavLink to={"/watching"}>
                         <Button className="button" variant="contained" color="secondary"
-                                style={{marginRight: '25px'}}>
+                                style={{marginRight: '25px', opacity: '0.6'}}>
                             Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/watched"}>
                         <Button className="button" variant="contained" color="secondary"
-                                style={{marginRight: '25px'}}>
+                                style={{marginRight: '25px', opacity: '0.6'}}>
                             Movies watched &nbsp; <CheckBoxOutlineBlankIcon color={"white"}/>
                         </Button>
                     </NavLink>
                     <NavLink to={"/watchlist"}>
                         <Button className="button" variant="contained" color="secondary"
-                                style={{marginRight: '25px'}}>
+                                style={{marginRight: '25px', opacity: '0.6'}}>
                             Want to watch &nbsp; <BookmarkBorderIcon/>
                         </Button>
                     </NavLink>

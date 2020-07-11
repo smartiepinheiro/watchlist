@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {TMDB_API, TMDB_KEY} from "../context/Actions";
 import Button from "@material-ui/core/Button";
+import Loading from "./Loading";
 
 export default class ProgressPopUp extends Component {
     constructor(props) {
@@ -170,7 +171,7 @@ export default class ProgressPopUp extends Component {
     render() {
         if (this.state.loading) {
             return (
-                <h2>Loading...</h2>
+                <Loading/>
             )
         } else {
             return (

@@ -6,7 +6,6 @@ export default class ImdbRating extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
             id: '',
             rating: ''
         };
@@ -15,7 +14,7 @@ export default class ImdbRating extends Component {
     }
 
     setData() {
-        fetch(`${OMDB_API}?t=${this.props.title}${OMDB_KEY}`)
+        fetch(`${OMDB_API}?i=${this.props.id}${OMDB_KEY}`)
             .then(res => res.json())
             .then((result) => {
                     this.setState({
@@ -31,7 +30,7 @@ export default class ImdbRating extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.title !== this.props.title) {
+        if (prevProps.id !== this.props.id) {
             this.setData();
         }
     }

@@ -10,6 +10,12 @@ const initialState = {
         data: [],
         reload: false
     },
+    trending: {
+        loading: false,
+        error: null,
+        data: [],
+        reload: false
+    },
     favorites: {
         loading: false,
         error: null,

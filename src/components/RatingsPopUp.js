@@ -44,7 +44,6 @@ export default class RatingsPopUp extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.type);
         if(this.props.type === 'movie') {
             let watched = JSON.parse(localStorage.getItem('watched'));
             let watchedFiltered = watched.filter(watched => watched.id === this.props.id);

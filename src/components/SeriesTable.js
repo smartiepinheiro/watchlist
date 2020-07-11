@@ -63,9 +63,9 @@ function SeriesTable() {
         },
         {
             title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
+                <ImdbRating id={rowData.imdbID}/>
             )
-        },
+        }
     ]);
 
     const searchTitle = "Tv shows found:";

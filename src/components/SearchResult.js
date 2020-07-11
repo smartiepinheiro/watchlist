@@ -11,6 +11,7 @@ import Loading from "./Loading";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import MoviesTable from "./MoviesTable";
 import SeriesTable from "./SeriesTable";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
 
 function SearchResult() {
     const {state, dispatch} = useContext(AppContext);
@@ -29,7 +30,7 @@ function SearchResult() {
             .then(function (response) {
                 response.json().then(function (parsedJson) {
                     if (parsedJson.Response === 'True') {
-                        totalPages.current = Math.ceil(parsedJson.totalResults  / 10);
+                        totalPages.current = Math.ceil(parsedJson.totalResults / 10);
                         dispatch(fetchListSuccess(JSON.parse(JSON.stringify(parsedJson)
                             .split('"Search":').pop().split(',"totalResults"')[0])));
                     } else {
@@ -41,7 +42,7 @@ function SearchResult() {
     }
 
     function nextPage() {
-        if(page.current < totalPages.current) {
+        if (page.current < totalPages.current) {
             page.current = page.current + 1;
             handleOnClick();
         }
@@ -56,12 +57,10 @@ function SearchResult() {
 
     let pagesCount = "";
 
-    if(!loading && data.length !== 0) {
-        if(totalPages.current === "1"){
+    if (!loading && data.length !== 0) {
+        if (totalPages.current === "1") {
             pagesCount = "1/1";
-        }
-
-        else {
+        } else {
             pagesCount = page.current + "/" + totalPages.current;
         }
     }
@@ -71,7 +70,7 @@ function SearchResult() {
         navBar = <nav className="navbar">
             <div className="navbarleft">
                 <form noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="Search movie/show" variant="outlined"
+                    <TextField id="outlined-basic" label="Search movie" variant="outlined"
                                onChange={e => setSearch(e.target.value)}
                                onKeyPress={e => {
                                    if (e.key === 'Enter') {
@@ -99,27 +98,34 @@ function SearchResult() {
             }}>
                 TV Shows
             </Button>
+            <NavLink to={"/trending"}>
+                <Button className="button" variant="contained" color="secondary"
+                        style={{marginLeft: '25px', opacity: '0.6'}}>
+                    <WhatshotIcon/>
+                </Button>
+            </NavLink>
             <div className="navbarright">
                 <NavLink to={"/watching"}>
                     <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watched"}>
                     <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Movies watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watchlist"}>
                     <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Want to watch &nbsp; <BookmarkBorderIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/favorites"}>
-                    <Button className="button" variant="contained" color="secondary">
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{opacity: '0.6'}}>
                         Favorites &nbsp; <FavoriteBorderIcon/>
                     </Button>
                 </NavLink>
@@ -129,7 +135,7 @@ function SearchResult() {
         navBar = <nav className="navbar">
             <div className="navbarleft">
                 <form noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="Search movie/show" variant="outlined"
+                    <TextField id="outlined-basic" label="Search show" variant="outlined"
                                onChange={e => setSearch(e.target.value)}
                                onKeyPress={e => {
                                    if (e.key === 'Enter') {
@@ -156,27 +162,34 @@ function SearchResult() {
             }}>
                 TV Shows
             </Button>
+            <NavLink to={"/trending"}>
+                <Button className="button" variant="contained" color="secondary"
+                        style={{marginLeft: '25px', opacity: '0.6'}}>
+                    <WhatshotIcon/>
+                </Button>
+            </NavLink>
             <div className="navbarright">
                 <NavLink to={"/watching"}>
                     <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watched"}>
                     <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Movies watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watchlist"}>
                     <Button className="button" variant="contained" color="secondary"
-                            style={{marginRight: '25px'}}>
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Want to watch &nbsp; <BookmarkBorderIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/favorites"}>
-                    <Button className="button" variant="contained" color="secondary">
+                    <Button className="button" variant="contained" color="secondary"
+                            style={{opacity: '0.6'}}>
                         Favorites &nbsp; <FavoriteBorderIcon/>
                     </Button>
                 </NavLink>

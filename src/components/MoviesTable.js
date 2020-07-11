@@ -63,9 +63,9 @@ function MoviesTable() {
         },
         {
             title: 'IMDB', render: rowData => (
-                <ImdbRating title={rowData.Title}/>
+                <ImdbRating id={rowData.imdbID}/>
             )
-        },
+        }
     ]);
 
     const searchTitle = "Movies found:";
