@@ -1,5 +1,12 @@
-import React, {useContext, useRef, useState} from 'react';
-import {fetchListStarted, fetchListSuccess, OMDB_KEY, OMDB_API} from '../context/Actions';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {
+    fetchListStarted,
+    fetchListSuccess,
+    OMDB_KEY,
+    OMDB_API,
+    fetchWatchlistStarted,
+    fetchWatchlistSuccess
+} from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import AppContext from "../context/AppContext";
 import {NavLink} from "react-router-dom";
@@ -23,6 +30,10 @@ function SearchResult() {
     const totalPages = useRef(0);
     const page = useRef(1);
     let filterSearch = useRef('&type=movie');
+
+    useEffect(() => {
+        dispatch(fetchListSuccess(JSON.parse("[]")));
+    }, []);
 
     function handleOnClick() {
         dispatch(fetchListStarted());
