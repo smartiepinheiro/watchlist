@@ -19,6 +19,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import MoviesTable from "./MoviesTable";
 import SeriesTable from "./SeriesTable";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function SearchResult() {
     const {state, dispatch} = useContext(AppContext);
@@ -93,7 +94,7 @@ function SearchResult() {
                                }}/>
                 </form>
             </div>
-            <Button className="button" variant="contained" color="primary"
+            <Button className="button" size="small" variant="contained" color="primary"
                     style={{marginLeft: '25px'}} onClick={() => {
                 filterSearch.current = '&type=movie';
                 page.current = 1;
@@ -101,7 +102,7 @@ function SearchResult() {
             }}>
                 Movies
             </Button>
-            <Button className="button" variant="contained" color="primary"
+            <Button className="button" size="small" variant="contained" color="primary"
                     style={{marginLeft: '25px', opacity: '0.6'}} onClick={() => {
                 filterSearch.current = '&type=series';
                 page.current = 1;
@@ -110,36 +111,44 @@ function SearchResult() {
                 TV Shows
             </Button>
             <NavLink to={"/trending"}>
-                <Button className="button" variant="contained" color="secondary"
+                <Button className="button" size="small" variant="contained" color="secondary"
                         style={{marginLeft: '25px', opacity: '0.6'}}>
                     <WhatshotIcon/>
                 </Button>
             </NavLink>
             <div className="navbarright">
                 <NavLink to={"/watching"}>
-                    <Button className="button" variant="contained" color="secondary"
+                    <Button className="button" size="small" variant="contained" color="secondary"
                             style={{marginRight: '25px', opacity: '0.6'}}>
                         Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watched"}>
-                    <Button className="button" variant="contained" color="secondary"
+                    <Button className="button" size="small" variant="contained" color="secondary"
                             style={{marginRight: '25px', opacity: '0.6'}}>
                         Movies watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watchlist"}>
-                    <Button className="button" variant="contained" color="secondary"
+                    <Button className="button" size="small" variant="contained" color="secondary"
                             style={{marginRight: '25px', opacity: '0.6'}}>
                         Want to watch &nbsp; <BookmarkBorderIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/favorites"}>
-                    <Button className="button" variant="contained" color="secondary"
-                            style={{opacity: '0.6'}}>
+                    <Button className="button" size="small" variant="contained" color="secondary"
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Favorites &nbsp; <FavoriteBorderIcon/>
                     </Button>
                 </NavLink>
+                <Tooltip title="This application uses the TMDB API">
+                    <Button className="button" size="small" variant="contained" color="white"
+                            href="https://www.themoviedb.org/documentation/api" target="_blank">
+                        <img
+                            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+                            alt="The Movie Data Base logo" width="50"/>
+                    </Button>
+                </Tooltip>
             </div>
         </nav>
     } else {
@@ -157,7 +166,7 @@ function SearchResult() {
                                }}/>
                 </form>
             </div>
-            <Button className="button" variant="contained" color="primary"
+            <Button className="button" size="small" variant="contained" color="primary"
                     style={{marginLeft: '25px', opacity: '0.6'}} onClick={() => {
                 filterSearch.current = '&type=movie';
                 page.current = 1;
@@ -165,7 +174,7 @@ function SearchResult() {
             }}>
                 Movies
             </Button>
-            <Button className="button" variant="contained" color="primary"
+            <Button className="button" size="small" variant="contained" color="primary"
                     style={{marginLeft: '25px'}} onClick={() => {
                 filterSearch.current = '&type=series';
                 page.current = 1;
@@ -174,36 +183,44 @@ function SearchResult() {
                 TV Shows
             </Button>
             <NavLink to={"/trending"}>
-                <Button className="button" variant="contained" color="secondary"
+                <Button className="button" size="small" variant="contained" color="secondary"
                         style={{marginLeft: '25px', opacity: '0.6'}}>
                     <WhatshotIcon/>
                 </Button>
             </NavLink>
             <div className="navbarright">
                 <NavLink to={"/watching"}>
-                    <Button className="button" variant="contained" color="secondary"
+                    <Button className="button" size="small" variant="contained" color="secondary"
                             style={{marginRight: '25px', opacity: '0.6'}}>
                         Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watched"}>
-                    <Button className="button" variant="contained" color="secondary"
+                    <Button className="button" size="small" variant="contained" color="secondary"
                             style={{marginRight: '25px', opacity: '0.6'}}>
                         Movies watched &nbsp; <CheckBoxOutlineBlankIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/watchlist"}>
-                    <Button className="button" variant="contained" color="secondary"
+                    <Button className="button" size="small" variant="contained" color="secondary"
                             style={{marginRight: '25px', opacity: '0.6'}}>
                         Want to watch &nbsp; <BookmarkBorderIcon/>
                     </Button>
                 </NavLink>
                 <NavLink to={"/favorites"}>
-                    <Button className="button" variant="contained" color="secondary"
-                            style={{opacity: '0.6'}}>
+                    <Button className="button" size="small" variant="contained" color="secondary"
+                            style={{marginRight: '25px', opacity: '0.6'}}>
                         Favorites &nbsp; <FavoriteBorderIcon/>
                     </Button>
                 </NavLink>
+                <Tooltip title="This application uses the TMDB API">
+                    <Button className="button" size="small" variant="contained" color="white"
+                            href="https://www.themoviedb.org/documentation/api" target="_blank">
+                        <img
+                            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+                            alt="The Movie Data Base logo" width="50"/>
+                    </Button>
+                </Tooltip>
             </div>
         </nav>
     }

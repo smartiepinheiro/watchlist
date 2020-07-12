@@ -19,6 +19,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import WhatshotIcon from "@material-ui/icons/Whatshot";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function WatchedList() {
 
@@ -107,50 +108,58 @@ function WatchedList() {
     const emptyMessage = "No watched movies found.";
 
     const navBar =
-            <div>
-                <nav className="navbar">
-                    <div className="navbarleft">
-                        <NavLink to={"/search"}>
-                            <Button className="button" variant="contained" color="primary"
-                                    style={{marginRight: '25px', opacity: '0.6'}}>
-                                <ArrowBackIosIcon/> &nbsp; Search
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/trending"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px', opacity: '0.6'}}>
-                                <WhatshotIcon/>
-                            </Button>
-                        </NavLink>
-                    </div>
-                    <div className="navbarright">
-                        <NavLink to={"/watching"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px', opacity: '0.6'}}>
-                                Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/watched"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px'}}>
-                                Movies watched &nbsp; <CheckBoxIcon color={"white"}/>
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/watchlist"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{marginRight: '25px', opacity: '0.6'}}>
-                                Want to watch &nbsp; <BookmarkBorderIcon/>
-                            </Button>
-                        </NavLink>
-                        <NavLink to={"/favorites"}>
-                            <Button className="button" variant="contained" color="secondary"
-                                    style={{opacity: '0.6'}}>
-                                Favorites &nbsp; <FavoriteBorderIcon/>
-                            </Button>
-                        </NavLink>
-                    </div>
-                </nav>
-            </div>
+        <div>
+            <nav className="navbar">
+                <div className="navbarleft">
+                    <NavLink to={"/search"}>
+                        <Button className="button" size="small" variant="contained" color="primary"
+                                style={{marginRight: '25px', opacity: '0.6'}}>
+                            <ArrowBackIosIcon/> &nbsp; Search
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/trending"}>
+                        <Button className="button" size="small" variant="contained" color="secondary"
+                                style={{marginRight: '25px', opacity: '0.6'}}>
+                            <WhatshotIcon/>
+                        </Button>
+                    </NavLink>
+                </div>
+                <div className="navbarright">
+                    <NavLink to={"/watching"}>
+                        <Button className="button" size="small" variant="contained" color="secondary"
+                                style={{marginRight: '25px', opacity: '0.6'}}>
+                            Shows you're watching &nbsp; <RadioButtonUncheckedIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watched"}>
+                        <Button className="button" size="small" variant="contained" color="secondary"
+                                style={{marginRight: '25px'}}>
+                            Movies watched &nbsp; <CheckBoxIcon color={"white"}/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/watchlist"}>
+                        <Button className="button" size="small" variant="contained" color="secondary"
+                                style={{marginRight: '25px', opacity: '0.6'}}>
+                            Want to watch &nbsp; <BookmarkBorderIcon/>
+                        </Button>
+                    </NavLink>
+                    <NavLink to={"/favorites"}>
+                        <Button className="button" size="small" variant="contained" color="secondary"
+                                style={{marginRight: '25px', opacity: '0.6'}}>
+                            Favorites &nbsp; <FavoriteBorderIcon/>
+                        </Button>
+                    </NavLink>
+                    <Tooltip title="This application uses the TMDB API">
+                        <Button className="button" size="small" variant="contained" color="white"
+                                href="https://www.themoviedb.org/documentation/api" target="_blank">
+                            <img
+                                src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+                                alt="The Movie Data Base logo" width="50"/>
+                        </Button>
+                    </Tooltip>
+                </div>
+            </nav>
+        </div>
 
     if (loading || (JSON.parse(localStorage.getItem('watched')).length !== 0 && data.length === 0)) {
         return (
@@ -159,9 +168,7 @@ function WatchedList() {
                 <Loading/>
             </div>
         )
-    }
-
-    else {
+    } else {
         return (
             <div>
                 {navBar}
