@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+.idea
 
 # netlify's site id
 /.netlify/

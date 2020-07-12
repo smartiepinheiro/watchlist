@@ -50,9 +50,7 @@ function App() {
                     <Route path="/watchlist" component={WantToWatchList}/>
                     <Route path="/watched" component={WatchedList}/>
                     <Route path="/favorites" component={Favorites}/>
-
-                    // if none match redirect to trending
-                    <Route render={() => <Redirect to="/trending" />} />
+                    <Route render={() => <Redirect to="/trending" />}/>
                 </Switch>
             </Router>
         </div>
