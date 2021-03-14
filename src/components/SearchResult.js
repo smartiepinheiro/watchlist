@@ -3,9 +3,7 @@ import {
     fetchListStarted,
     fetchListSuccess,
     OMDB_KEY,
-    OMDB_API,
-    fetchWatchlistStarted,
-    fetchWatchlistSuccess
+    OMDB_API
 } from '../context/Actions';
 import Button from "@material-ui/core/Button";
 import AppContext from "../context/AppContext";

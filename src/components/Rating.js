@@ -121,7 +121,7 @@ export default class Rating extends Component {
                 </Button>
                 <Dialog open={this.state.openRatings} onClose={this.handleRatingsClose}>
                     <DialogContent>
-                        <RatingsPopUp id={this.props.id} type={this.props.type}/>
+                        <RatingsPopUp id={this.props.id} type={this.props.type} handleRatingsClose={this.handleRatingsClose}/>
                     </DialogContent>
                 </Dialog>
             </div>

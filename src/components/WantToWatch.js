@@ -67,7 +67,19 @@ export default class WantToWatch extends Component {
 
         let watched = JSON.parse(localStorage.getItem('watched'));
         let watchedFiltered = watched.filter(watched => watched.id === this.props.id);
-        if (watchedFiltered.length === 0) {
+
+        if (watchedFiltered.length !== 0) {
+            return "Already watched";
+        }
+
+        let watching = JSON.parse(localStorage.getItem('watching'));
+        let watchingFiltered = watching.filter(watching => watching.id === this.props.id);
+
+        if (watchingFiltered.length !== 0) {
+            return "Already watching";
+        }
+
+        else {
             return (
                 <Button color="primary" onClick={() => {
                     this.setState({wantToWatch: !this.state.wantToWatch});
@@ -80,7 +92,5 @@ export default class WantToWatch extends Component {
                 </Button>
             )
         }
-
-        else return "Already watched";
     }
 }

@@ -70,55 +70,57 @@ export default class ProgressPopUp extends Component {
         this.setState({className: "selectedEpisodeButton"});
     }
 
-    markAsWatched(season, episode) {
+    markAsWatched(seasonRef, episodeRef) {
 
         // change button color
         this.selectEpisode();
 
-        let watched = JSON.parse(localStorage.getItem("watching"));
-        let watchedFilteredByID = watched.filter(saved => saved.id === this.props.id);
+        let watching = JSON.parse(localStorage.getItem("watching"));
+        let watchingFilteredByID = watching.filter(season => season.id === this.props.id);
 
-        if (watchedFilteredByID[0].seasons.length !== 0) {
-            for (let i = 0; i < watchedFilteredByID[0].seasons.length; i++) {
-                if (watchedFilteredByID[0].seasons[i].season === season) {
+        if (watchingFilteredByID[0].seasons.length !== 0) {
+            for (let i = 0; i < watchingFilteredByID[0].seasons.length; i++) {
+                if (watchingFilteredByID[0].seasons[i].season === seasonRef) {
 
                     // loop episodes
-                    for (let j = 0; j < watchedFilteredByID[0].seasons[i].episodes.length; j++) {
+                    for (let j = 0; j < watchingFilteredByID[0].seasons[i].episodes.length; j++) {
 
                         // if episode already exists
-                        if (watchedFilteredByID[0].seasons[i].episodes[j].episode === episode) {
+                        if (watchingFilteredByID[0].seasons[i].episodes[j].episode === episodeRef) {
 
                             // episode already exists so remove it
+                            watchingFilteredByID[0].seasons[i].episodes.splice(j, 1);
+                            
+                            if(watchingFilteredByID[0].seasons[i].episodes.length == 0) {
+                                watchingFilteredByID[0].seasons.splice(i, 1);
+                            }
 
-                            // TODO removing episode not working
-                            // watchedFilteredByID.splice(watchedFilteredByID
-                            //     .indexOf(watchedFilteredByID[0].seasons[i].episodes[j]), 1);
-                            // localStorage.setItem('watching', JSON.stringify(watched));
+                            localStorage.setItem('watching', JSON.stringify(watching));
                             return 1;
-                        } else if (j === watchedFilteredByID[0].seasons[i].episodes.length - 1) {
+                        } else if (j === watchingFilteredByID[0].seasons[i].episodes.length - 1) {
 
                             // episode doesn't exist so add it
-                            watchedFilteredByID[0].seasons[i].episodes.push({episode: episode});
-                            localStorage.setItem('watching', JSON.stringify(watched));
+                            watchingFilteredByID[0].seasons[i].episodes.push({episode: episodeRef});
+                            localStorage.setItem('watching', JSON.stringify(watching));
                             return 1;
                         }
                     }
                 }
 
                 // if the season is not yet being stored
-                else if (i === watchedFilteredByID[0].seasons.length - 1) {
+                else if (i === watchingFilteredByID[0].seasons.length - 1) {
 
                     // add season and episode
-                    watchedFilteredByID[0].seasons.push({
-                        season: season,
+                    watchingFilteredByID[0].seasons.push({
+                        season: seasonRef,
                         episodes: [
                             {
-                                episode: episode
+                                episode: episodeRef
                             }
                         ]
                     })
 
-                    localStorage.setItem('watching', JSON.stringify(watched));
+                    localStorage.setItem('watching', JSON.stringify(watching));
                     return 1;
                 }
             }
@@ -126,15 +128,15 @@ export default class ProgressPopUp extends Component {
 
         // if no seasons are yet being stored
         else {
-            watchedFilteredByID[0].seasons.push({
-                season: season,
+            watchingFilteredByID[0].seasons.push({
+                season: seasonRef,
                 episodes: [
                     {
-                        episode: episode
+                        episode: episodeRef
                     }
                 ]
             })
-            localStorage.setItem('watching', JSON.stringify(watched));
+            localStorage.setItem('watching', JSON.stringify(watching));
         }
     }
 
@@ -177,11 +179,6 @@ export default class ProgressPopUp extends Component {
             return (
                 <div>
                     <h3> Which episodes have you watched?</h3>
-                    <p style={{fontSize: '12px'}}>
-                        <italic>Note: As of now there's no functionality
-                            to unselect an episode so please check them carefully.
-                        </italic>
-                    </p>
                     <ul>
                         {this.state.seasons.map((seasons) => {
                             return (

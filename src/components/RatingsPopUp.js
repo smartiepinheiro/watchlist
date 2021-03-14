@@ -110,22 +110,27 @@ export default class RatingsPopUp extends Component {
                             <Button onClick={() => {
                                 this.setStarOne();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarTwo();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarThree();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFour();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFive();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                         </div>
                 });
@@ -137,22 +142,27 @@ export default class RatingsPopUp extends Component {
                             <Button onClick={() => {
                                 this.setStarOne();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarTwo();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarThree();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFour();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFive();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                         </div>
                 });
@@ -164,22 +174,27 @@ export default class RatingsPopUp extends Component {
                             <Button onClick={() => {
                                 this.setStarOne();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarTwo();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarThree();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFour();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFive();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                         </div>
                 });
@@ -191,22 +206,27 @@ export default class RatingsPopUp extends Component {
                             <Button onClick={() => {
                                 this.setStarOne();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarTwo();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarThree();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFour();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFive();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                         </div>
                 });
@@ -218,22 +238,27 @@ export default class RatingsPopUp extends Component {
                             <Button onClick={() => {
                                 this.setStarOne();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarTwo();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarThree();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFour();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFive();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarIcon color={"secondary"}/></Button>
                         </div>
                 });
@@ -245,22 +270,27 @@ export default class RatingsPopUp extends Component {
                             <Button onClick={() => {
                                 this.setStarOne();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarTwo();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarThree();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFour();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                             <Button onClick={() => {
                                 this.setStarFive();
                                 this.changeRating();
+                                this.props.handleRatingsClose();
                             }}><StarBorderIcon color={"secondary"}/></Button>
                         </div>
                 });

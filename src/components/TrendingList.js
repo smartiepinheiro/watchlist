@@ -58,7 +58,9 @@ function WantToWatchList() {
                                     fetch(`${OMDB_API}?i=${parsedJson.external_ids.imdb_id}${OMDB_KEY}`)
                                         .then(function (response) {
                                             response.json().then(function (parsedJson) {
-                                                omdbIdArray.push(parsedJson);
+                                                if(JSON.stringify(parsedJson) != '{"Response":"False","Error":"Incorrect IMDb ID."}') {
+                                                    omdbIdArray.push(parsedJson);
+                                                }
                                             })
                                         })
                                 })
@@ -262,13 +264,13 @@ function WantToWatchList() {
                     </Tooltip>
                 </div>
             </nav>
-            {buttons}
         </div>
 
     if (loading) {
         return (
             <div>
                 {navBar}
+                {buttons}
                 <Loading/>
             </div>
         )
@@ -276,6 +278,7 @@ function WantToWatchList() {
         return (
             <div>
                 {navBar}
+                {buttons}
                 <div>
                     <MaterialTable
                         title={searchTitle}

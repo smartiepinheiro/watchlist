@@ -37,8 +37,7 @@ ___
 
 ### Limitations / Features not yet implemented
 
-❗ Not mobile responsive.   
-❗ Unable to unselect an episode from watched progress.   
+❗ Not mobile/tablet responsive.    
 ❗ Unable to select a whole season at a time.   
 
 ### Thank you so much for the time 🙋
